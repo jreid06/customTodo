@@ -28,6 +28,14 @@
   <!-- <div class="page1"> -->
     <div class="container-fluid home-screen">
       <div class="content">
+              <!-- <p class="storage s1" id="storage1"></p>
+              <p class="storage s2" id="storage2"></p>
+              <button class="s4" id="myBtn2">update Value with Vauxhall</button>
+              <button class="s3" id="myBtn">update Value with Porshe</button>
+              <button class="s5" id="myBtn3">Create</button>
+              <div class="showCreated" id="screate"> -->
+                <!-- <p class="created"></p> -->
+              </div>
               <section class="title">
                 <div class="titles">
                   <p class="h2-cus" data-fade="true" data-fade-delay="0s">my <span class="underline"></span></p>
@@ -36,7 +44,10 @@
                 </div>
               </section>
               <section class="home-buttons">
-                <button class="create" id="create">create</button>
+                <div class="create" style="position: relative; z-index: 1000000;">
+                    <a href="categories.html">create</a>
+                </div>
+
                 <button class="load" id="load">load</button>
               </section>
 
@@ -66,18 +77,18 @@
 
         <section class="create-info">
           <div class="crteBtn cat-create" id="catCreate">
-            <div class="background-slide" id="bs01"></div>
+            <div class="background_slide" id="bs01"></div>
             <div class="icon">
               <span class="fa fa-plus"></span>
             </div>
-            <p>CREATE CATEGORY</p>
+            <p><span>CREATE CATEGORY</span></p>
           </div>
           <div class="crteBtn cat-list" id="listCreate">
-            <div class="background-slide" id="bs02"></div>
+            <div class="background_slide" id="bs02"></div>
             <div class="icon">
               <span class="fa fa-plus"></span>
             </div>
-            <p>CREATE LIST</p>
+            <p><span>CREATE LIST</span></p>
           </div>
 
           <div class="smallButtons more">
