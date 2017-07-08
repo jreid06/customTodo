@@ -316,6 +316,9 @@ span.fa-plus-circle {
     padding-bottom: 20px;
     margin-bottom: 20px; }
 
+.list-cards {
+  height: auto; }
+
 ul.list-cards:empty::before {
   content: 'Create a Category. Get Organised!!';
   position: absolute;

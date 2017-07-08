@@ -1,25 +1,39 @@
 $(document).ready(function() {
 
+    let count = 0;
+    // MODEL
 
-    document.getElementById('addCat').addEventListener('click', () => {
-        let value = $('.inputBox').val();
-        if (value) {
-            document.getElementById('inpCat').value = "";
-            console.log(value);
-            createCatFunc(value);
-        } else {
-            alert("No Input");
-        }
+    //category storage
+    let categories = [];
+
+    // setInterval(function(){
+    //   console.log(categories.name);
+    // }, 5000);
+    const CatConstruct = function(name){
+      this.name = name;
+      // will get populated once user has created a list item.
+      this.todo = [];
+      // when user adds task to doing list item will be added here
+      this.doing = [];
+      // completed task goes here
+      this.done = [];
+    }
+
+    // adds category to storage object to storage
+    const storeCategory = function(input){
+      let num = 100;
+      // create object for cat item;
+      categories.push(new CatConstruct(input));
+      // return categories;
+      // console.log(categories.length);
+    }
 
 
-    })
-
+    // VIEW
 
     const createCatFunc = (usrInput, event) => {
-        // let count = 0;
-        // count++;
         let htmlListitem = `
-          <li class="cat-card animated fadeIn">
+          <li class="cat-card animated fadeIn" id="catItm">
             <div class="bar">
               <div class="row description">
                 <div class="col-xs-12">
@@ -48,11 +62,12 @@ $(document).ready(function() {
               </div>
             </div>
           </li>`;
-        let parseHtml = $.parseHTML(htmlListitem);
-        let nodeNames = [];
+        let modalList = ``;
         // create our list and add class
         const catList = document.getElementById('catList_cards');
 
+        // let testCat = new CatConstruct(usrInput);
+        // console.log(`Category Name: ${testCat.name}`);
         catList.innerHTML = htmlListitem + catList.innerHTML;
         setTimeout(function() {
             if ($('.cat-card').hasClass('fadeIn')) {
@@ -60,7 +75,84 @@ $(document).ready(function() {
             }
         }, 2100);
 
+        //gives list item a new id
+        // let attrId = $('#catItm').attr('id');
+        // console.log(attrId);
+        // console.log(typeof attrId);
+        // console.log(count);
+        //
+        // let newId = `${attrId}${count}`;
+        // attrId = newId;
+        // console.log(attrId);
+        // $('#catItm').attr('id', attrId);
+
+
+        // }, 200);
+
+        count++;
+        // return;
     }
+
+    // CONTROLLER
+
+    const getInputVal = (clickBtn, clearBtn, input) => {
+      // console.log(clickBtn);
+      document.getElementById(clickBtn).addEventListener('click', function(){
+          // console.log(input.val());
+          let value = input.val();
+          if (value) {
+              // creates our list item
+              createCatFunc(value);
+              storeCategory(value);
+              deleteCat();
+
+              // clear the value of the input field
+              input.val('');
+          } else {
+              alert("No Input");
+          }
+      });
+      document.getElementById(clearBtn).addEventListener('click', function(){
+          input.val('');
+      });
+    }
+
+  document.get
+
+    const deleteCat = () => {
+        $('.delete-cat').click(function(event){
+          let item = this.parentNode.parentNode.parentNode.parentNode.parentNode;
+          let parent = item.parentNode;
+          parent.removeChild(item);
+        })
+
+
+
+    }
+
+
+
+
+
+  // Call functions
+  getInputVal($('#addCat').attr('id'), $('#clearBox').attr('id'), $('#inpCat'));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -110,8 +202,8 @@ $(document).ready(function() {
     // before we can use the object we have to turn it back into an object
     let retrieveObj = JSON.parse(retrieveObjString);
 
-    console.log(typeof retrieveObj);
-    console.log(retrieveObj.fname);
+    // console.log(typeof retrieveObj);
+    // console.log(retrieveObj.fname);
 
     $('#storage2').text(retrieveObj.fname);
 

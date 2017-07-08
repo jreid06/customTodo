@@ -469,6 +469,7 @@ span.fa-plus-circle {
 
 .list-cards {
     // border: 1px solid orange;
+  height: auto;
 }
 
 ul.list-cards:empty::before {
@@ -477,7 +478,6 @@ ul.list-cards:empty::before {
     position: absolute;
     // top: 30px;
     left: 50%;
-    // padding-bottom: 20p
     margin: 0 0 0 -75px;
     opacity: 0.3;
 }
