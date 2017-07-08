@@ -141,6 +141,15 @@ footer {
     // flex-direction: row;
     // flex-wrap: wrap;
 }
+
+.inputField{
+  // margin-top: 40%;
+  width: 100%;
+  margin: 20% auto;
+  border: 2px solid $darker-gold;
+  border-radius: 10px;
+  height: 45px;
+}
 // extended classes
 
 .home-screen {
@@ -409,12 +418,9 @@ footer {
 }
 
 .cat-input {
-    margin-top: 40%;
-    width: 80%;
-    margin: 20% auto;
-    border: 2px solid $darker-gold;
-    border-radius: 10px;
-    height: 45px;
+  @extend .inputField;
+  width: 80%;
+  margin-top: 40%;
 }
 
 .categories-list {
@@ -576,4 +582,27 @@ ul.list-cards:empty::before {
     text-align: center;
     padding: 2px;
     width: 100%;
+}
+
+
+.list-input{
+  @extend .inputField;
+  margin-top: 10%;
+}
+
+
+.modal-body, .modal-header, .modal-footer{
+  background-color: $dark-cream !important;
+}
+
+.todo-sec{
+  height: 100px;
+  border: 1px solid green;
+  margin-bottom: 20px;
+  h3{
+    padding-bottom: 10px;
+    border-bottom: 2px solid $dark-gold;
+    border-radius: 10px;
+    width: 50%;
+  }
 }

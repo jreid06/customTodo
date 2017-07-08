@@ -42,34 +42,189 @@
           <!-- <h4 class="text-left">My List of Categories</h4> -->
 
           <!-- categories list code -->
-          <ul class="list-cards" id="catList_cards"></ul>
+          <ul class="list-cards" id="catList_cards">
+            <li class="cat-card animated fadeIn" id="catItm" data-toggle="modal" data-target="#catmodal-01">
+              <div class="bar">
+                <div class="row description">
+                  <div class="col-xs-12">
+                    <section class="custom-height">
+                      <p class="category-t">${usrInput}</p>
+                      <p class="delete-cat" id="delCat"><i class="fa fa-times-circle-o hvr hvr-grow"></i></p>
+                    </section>
+                  </div>
+                </div>
+                <div class="row counters">
+                  <div class="col-xs-2 col-xs-offset-3 col">
+                    <div class="counter" id="c1">
+                      <p>2</p>
+                    </div>
+                  </div>
+                  <div class="col-xs-2 col">
+                    <div class="counter" id="c2">
+                      <p>2</p>
+                    </div>
+                  </div>
+                  <div class="col-xs-2 col">
+                    <div class="counter" id="c3">
+                      <p>5</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
 
 
         </section>
       </div>
 
-        <footer class="home-footer">
-          <section class="social-media">
-            <ul>
-              <li><span class="fa fa-facebook hvr-float"></span></li>
-              <li><span class="fa fa-instagram"></span></li>
-              <li><span class="fa fa-linkedin"></span></li>
-              <li><span class="fa fa-google"></span></li>
-            </ul>
-            <p style="width:100%; text-align:center"><a href="http://www.jbreid.co.uk" style="color: #fff">designed &amp; developed by jbreid</a></p>
-          </section>
-        </footer>
+      <footer class="home-footer">
+        <section class="social-media">
+          <ul>
+            <li><span class="fa fa-facebook hvr-float"></span></li>
+            <li><span class="fa fa-instagram hvr-float"></span></li>
+            <li><span class="fa fa-linkedin hvr-float"></span></li>
+            <li><span class="fa fa-google hvr-float"></span></li>
+          </ul>
+          <p style="width:100%; text-align:center"><a href="http://www.jbreid.co.uk" style="color: #fff">designed &amp; developed by jbreid</a></p>
+        </section>
+      </footer>
 
     </div>
 
+
+    <!-- MODAL SECTIONS -->
+    <div class="modal list-modals fade" tabindex="-1" role="dialog" id="catmodal-01">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">${usrInput} Users input value goes here</h4>
+          </div>
+          <div class="modal-body">
+            <section class="inputField list-input">
+              <input type="text" name="" value="" class="inputBox inputList" id="inpList" placeholder="Add List Items ...">
+              <div class="input-buttons"><span class="fa fa-plus-circle" id="addItem"></span></div>
+              <div class="input-buttons clearBox" id="clearItem"><span class="fa fa-times-circle-o"></span></div>
+            </section>
+            <section class="todo-sec todoItems">
+              <h3>Todo Items</h3>
+              <ul class="list-cards" id="todoList">
+                <li class="cat-card animated fadeIn" id="catItm" data-toggle="modal" data-target="#catmodal-01">
+                  <div class="bar">
+                    <div class="row description">
+                      <div class="col-xs-12">
+                        <section class="custom-height">
+                          <p class="category-t">${usrInput}</p>
+                          <p class="delete-cat" id="delCat"><i class="fa fa-times-circle-o hvr hvr-grow"></i></p>
+                        </section>
+                      </div>
+                    </div>
+                    <div class="row counters">
+                      <div class="col-xs-2 col-xs-offset-3 col">
+                        <div class="counter" id="c1">
+                          <p>2</p>
+                        </div>
+                      </div>
+                      <div class="col-xs-2 col">
+                        <div class="counter" id="c2">
+                          <p>2</p>
+                        </div>
+                      </div>
+                      <div class="col-xs-2 col">
+                        <div class="counter" id="c3">
+                          <p>5</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </section>
+            <section class="todo-sec doingItems">
+              <h3>Doing Items</h3>
+              <ul class="list-cards" id="doingList">
+                <li class="cat-card animated fadeIn" id="catItm" data-toggle="modal" data-target="#catmodal-01">
+                  <div class="bar">
+                    <div class="row description">
+                      <div class="col-xs-12">
+                        <section class="custom-height">
+                          <p class="category-t">${usrInput}</p>
+                          <p class="delete-cat" id="delCat"><i class="fa fa-times-circle-o hvr hvr-grow"></i></p>
+                        </section>
+                      </div>
+                    </div>
+                    <div class="row counters">
+                      <div class="col-xs-2 col-xs-offset-3 col">
+                        <div class="counter" id="c1">
+                          <p>2</p>
+                        </div>
+                      </div>
+                      <div class="col-xs-2 col">
+                        <div class="counter" id="c2">
+                          <p>2</p>
+                        </div>
+                      </div>
+                      <div class="col-xs-2 col">
+                        <div class="counter" id="c3">
+                          <p>5</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </section>
+            <section class="todo-sec completedItems">
+              <ul class="list-cards" id="completeList">
+                <li class="cat-card animated fadeIn" id="catItm" data-toggle="modal" data-target="#catmodal-01">
+                  <div class="bar">
+                    <div class="row description">
+                      <div class="col-xs-12">
+                        <section class="custom-height">
+                          <p class="category-t">${usrInput}</p>
+                          <p class="delete-cat" id="delCat"><i class="fa fa-times-circle-o hvr hvr-grow"></i></p>
+                        </section>
+                      </div>
+                    </div>
+                    <div class="row counters">
+                      <div class="col-xs-2 col-xs-offset-3 col">
+                        <div class="counter" id="c1">
+                          <p>2</p>
+                        </div>
+                      </div>
+                      <div class="col-xs-2 col">
+                        <div class="counter" id="c2">
+                          <p>2</p>
+                        </div>
+                      </div>
+                      <div class="col-xs-2 col">
+                        <div class="counter" id="c3">
+                          <p>5</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <h3>Completed Items</h3>
+            </section>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close Categorgies list</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
   </div>
-  <!-- </div> -->
+  <!-- end of category screen main div container -->
 
   <!-- <div class="page2"> -->
-
-
-
-
 
 
 

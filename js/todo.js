@@ -75,7 +75,7 @@ $(document).ready(function() {
             }
         }, 2100);
 
-        //gives list item a new id
+      //gives list item a new id
         // let attrId = $('#catItm').attr('id');
         // console.log(attrId);
         // console.log(typeof attrId);
@@ -108,10 +108,21 @@ $(document).ready(function() {
               alert("No Input");
           }
       });
+      let inputTest = document.getElementById('inpCat').addEventListener('keypress', function(e){
+        if(e.keyCode === 13){
+          createCatFunc(this.value);
+          storeCategory(this.value);
+          deleteCat();
+
+          this.value = "";
+        }
+      });
       document.getElementById(clearBtn).addEventListener('click', function(){
           input.val('');
       });
     }
+
+
 
     const deleteCat = () => {
         $('.delete-cat').click(function(event){
@@ -120,6 +131,7 @@ $(document).ready(function() {
           parent.removeChild(item);
         })
     }
+
 
 
 
