@@ -86,11 +86,7 @@ $(document).ready(function() {
         // console.log(attrId);
         // $('#catItm').attr('id', attrId);
 
-
-        // }, 200);
-
         count++;
-        // return;
     }
 
     // CONTROLLER
@@ -117,17 +113,12 @@ $(document).ready(function() {
       });
     }
 
-  document.get
-
     const deleteCat = () => {
         $('.delete-cat').click(function(event){
           let item = this.parentNode.parentNode.parentNode.parentNode.parentNode;
           let parent = item.parentNode;
           parent.removeChild(item);
         })
-
-
-
     }
 
 
