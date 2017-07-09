@@ -43,7 +43,7 @@
 
           <!-- categories list code -->
           <ul class="list-cards" id="catList_cards">
-            <li class="cat-card animated fadeIn" id="catItm" data-toggle="modal" data-target="#catmodal-01">
+            <!-- <li class="cat-card animated fadeIn" id="catItm" data-toggle="modal" data-target="#catmodal-01">
               <div class="bar">
                 <div class="row description">
                   <div class="col-xs-12">
@@ -71,7 +71,7 @@
                   </div>
                 </div>
               </div>
-            </li>
+            </li> -->
           </ul>
 
 
@@ -94,7 +94,10 @@
 
 
     <!-- MODAL SECTIONS -->
-    <div class="modal list-modals fade" tabindex="-1" role="dialog" id="catmodal-01">
+    <section class="modalSec" id="mdlStorage">
+
+    </section>
+    <!-- <div class="modal list-modals fade" tabindex="-1" role="dialog" id="catmodal-01">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -108,123 +111,70 @@
               <div class="input-buttons clearBox" id="clearItem"><span class="fa fa-times-circle-o"></span></div>
             </section>
             <section class="todo-sec todoItems">
-              <h3>Todo Items</h3>
+              <h3>Todo Items <span class="fa fa-tasks"></span></h3>
               <ul class="list-cards" id="todoList">
-                <li class="cat-card animated fadeIn" id="catItm" data-toggle="modal" data-target="#catmodal-01">
+                <li class="cat-card animated fadeIn" id="catItm">
                   <div class="bar">
                     <div class="row description">
                       <div class="col-xs-12">
                         <section class="custom-height">
                           <p class="category-t">${usrInput}</p>
-                          <p class="delete-cat" id="delCat"><i class="fa fa-times-circle-o hvr hvr-grow"></i></p>
+                          <p class="delete-cat" id="delItem"><i class="fa fa-times-circle-o hvr hvr-grow"></i></p>
                         </section>
                       </div>
                     </div>
-                    <div class="row counters">
-                      <div class="col-xs-2 col-xs-offset-3 col">
-                        <div class="counter" id="c1">
-                          <p>2</p>
+                    <div class="row bar">
+                        <div class="col-xs-2 col-xs-offset-3 col">
+                          <div class="list-buttons" id="lb1">
+                            <span class="fa fa-tasks"></span>
+                          </div>
                         </div>
-                      </div>
-                      <div class="col-xs-2 col">
-                        <div class="counter" id="c2">
-                          <p>2</p>
+                        <div class="col-xs-2 col">
+                          <div class="list-buttons" id="lb2">
+                            <span class="fa fa-spinner"></span>
+                          </div>
                         </div>
-                      </div>
-                      <div class="col-xs-2 col">
-                        <div class="counter" id="c3">
-                          <p>5</p>
+                        <div class="col-xs-2 col">
+                          <div class="list-buttons" id="lb3">
+                          <span class="fa fa-check"></span>
+                          </div>
                         </div>
-                      </div>
                     </div>
+
                   </div>
                 </li>
               </ul>
             </section>
             <section class="todo-sec doingItems">
-              <h3>Doing Items</h3>
+              <h3>Doing Items <span class="fa fa-spinner"></span></h3>
               <ul class="list-cards" id="doingList">
-                <li class="cat-card animated fadeIn" id="catItm" data-toggle="modal" data-target="#catmodal-01">
-                  <div class="bar">
-                    <div class="row description">
-                      <div class="col-xs-12">
-                        <section class="custom-height">
-                          <p class="category-t">${usrInput}</p>
-                          <p class="delete-cat" id="delCat"><i class="fa fa-times-circle-o hvr hvr-grow"></i></p>
-                        </section>
-                      </div>
-                    </div>
-                    <div class="row counters">
-                      <div class="col-xs-2 col-xs-offset-3 col">
-                        <div class="counter" id="c1">
-                          <p>2</p>
-                        </div>
-                      </div>
-                      <div class="col-xs-2 col">
-                        <div class="counter" id="c2">
-                          <p>2</p>
-                        </div>
-                      </div>
-                      <div class="col-xs-2 col">
-                        <div class="counter" id="c3">
-                          <p>5</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
+
               </ul>
             </section>
             <section class="todo-sec completedItems">
-              <ul class="list-cards" id="completeList">
-                <li class="cat-card animated fadeIn" id="catItm" data-toggle="modal" data-target="#catmodal-01">
-                  <div class="bar">
-                    <div class="row description">
-                      <div class="col-xs-12">
-                        <section class="custom-height">
-                          <p class="category-t">${usrInput}</p>
-                          <p class="delete-cat" id="delCat"><i class="fa fa-times-circle-o hvr hvr-grow"></i></p>
-                        </section>
-                      </div>
-                    </div>
-                    <div class="row counters">
-                      <div class="col-xs-2 col-xs-offset-3 col">
-                        <div class="counter" id="c1">
-                          <p>2</p>
-                        </div>
-                      </div>
-                      <div class="col-xs-2 col">
-                        <div class="counter" id="c2">
-                          <p>2</p>
-                        </div>
-                      </div>
-                      <div class="col-xs-2 col">
-                        <div class="counter" id="c3">
-                          <p>5</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-              <h3>Completed Items</h3>
+              <h3>Completed Items <span class="fa fa-check"></span></h3>
+                <ul class="list-cards" id="completeList">
+
+                </ul>
             </section>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close Categorgies list</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
           </div>
         </div>
-        <!-- /.modal-content -->
+        /.modal-content
       </div>
-      <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
+      /.modal-dialog
+    </div> -->
 
   </div>
   <!-- end of category screen main div container -->
 
   <!-- <div class="page2"> -->
+
+
+
+
 
 
 

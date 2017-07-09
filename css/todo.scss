@@ -542,7 +542,8 @@ ul.list-cards:empty::before {
     float: right;
     width: 20%;
     height: inherit;
-
+    // position: relative;
+    // z-index: 2000;
     i {
         padding-top: 10px;
         font-size: 1.4em;
@@ -585,6 +586,8 @@ ul.list-cards:empty::before {
 }
 
 
+
+
 .list-input{
   @extend .inputField;
   margin-top: 10%;
@@ -593,16 +596,21 @@ ul.list-cards:empty::before {
 
 .modal-body, .modal-header, .modal-footer{
   background-color: $dark-cream !important;
+  border: 0px solid;
 }
 
 .todo-sec{
   height: 100px;
-  border: 1px solid green;
+  // border: 1px solid green;
   margin-bottom: 20px;
   h3{
     padding-bottom: 10px;
     border-bottom: 2px solid $dark-gold;
     border-radius: 10px;
-    width: 50%;
+    width: 55%;
   }
+}
+
+.list-buttons{
+  @extend .counter;
 }
