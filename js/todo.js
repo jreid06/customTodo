@@ -18,6 +18,7 @@ $(document).ready(function() {
 
     const c_minus = () => {
         countNum--;
+        idCount --;
         if (!truthy) {
             truthy = true;
         };
@@ -26,6 +27,7 @@ $(document).ready(function() {
 
     // MODEL
 
+    let delId;
     //category storage
     let categories = [];
 
@@ -97,7 +99,8 @@ $(document).ready(function() {
               </div>
             </div>
           </li>`;
-            let modalList = `<div class="modal list-modals fade" tabindex="-1" role="dialog" id="catmodal-${countNum}"> <div class="modal-dialog" role="document"> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> <h4 class="modal-title"><strong>${usrInput}</strong></h4> </div> <div class="modal-body"> <section class="inputField list-input"> <input type="text" name="" value="" class="inputBox inputList" id="inpList" placeholder="Add List Items ..."><div class="input-buttons"><span class="fa fa-plus-circle" id="addItem"></span></div> <div class="input-buttons clearBox" id="clearItem"><span class="fa fa-times-circle-o"></span></div> </section> <section class="todo-sec todoItems"> <h3>Todo Items <span class="fa fa-tasks"></span></h3> <ul class="list-cards" id="todoList"> <li class="list-card animated fadeIn" id="listItm"> <div class="bar"> <div class="row description"> <div class="col-xs-12"> <section class="custom-height"> <p class="category-t">${usrInput}</p> <p class="delete-cat" id="delItem"><i class="fa fa-times-circle-o hvr hvr-grow"></i></p> </section> </div> </div> <div class="row bar"> <div class="col-xs-2 col-xs-offset-3 col"> <div class="list-buttons" id="lb1"> <span class="fa fa-tasks"></span> </div> </div> <div class="col-xs-2 col"> <div class="list-buttons" id="lb2"> <span class="fa fa-spinner"></span> </div> </div> <div class="col-xs-2 col"> <div class="list-buttons" id="lb3"> <span class="fa fa-check"></span> </div> </div> </div> </div> </li> </ul> </section> <section class="todo-sec doingItems"> <h3>Doing Items <span class="fa fa-spinner"></span></h3> <ul class="list-cards" id="doingList"> </ul> </section> <section class="todo-sec completedItems"> <h3>Completed Items <span class="fa fa-check"></span></h3> <ul class="list-cards" id="completeList"> </ul> </section> </div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Close Categorgies list</button> </div> </div> </div> </div`;
+
+          let modalList = `<div class="modal list-modals fade" tabindex="-1" role="dialog" id="catmodal-${countNum}"> <div class="modal-dialog" role="document"> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> <h4 class="modal-title"><strong>${usrInput}</strong></h4> </div> <div class="modal-body"> <section class="inputField list-input"> <input type="text" name="" value="" class="inputBox inputList" id="inpList" placeholder="Add List Items ..."><div class="input-buttons"><span class="fa fa-plus-circle" id="addItem"></span></div> <div class="input-buttons clearBox" id="clearItem"><span class="fa fa-times-circle-o"></span></div> </section> <section class="todo-sec todoItems"> <h3>Todo Items <span class="fa fa-tasks"></span></h3> <ul class="list-cards" id="todoList"> <li class="list-card animated fadeIn" id="listItm"> <div class="bar"> <div class="row description"> <div class="col-xs-12"> <section class="custom-height"> <p class="category-t">${usrInput}</p> <p class="delete-cat" id="delItem"><i class="fa fa-times-circle-o hvr hvr-grow"></i></p> </section> </div> </div> <div class="row bar"> <div class="col-xs-2 col-xs-offset-3 col"> <div class="list-buttons" id="lb1"> <span class="fa fa-tasks"></span> </div> </div> <div class="col-xs-2 col"> <div class="list-buttons" id="lb2"> <span class="fa fa-spinner"></span> </div> </div> <div class="col-xs-2 col"> <div class="list-buttons" id="lb3"> <span class="fa fa-check"></span> </div> </div> </div> </div> </li> </ul> </section> <section class="todo-sec doingItems"> <h3>Doing Items <span class="fa fa-spinner"></span></h3> <ul class="list-cards" id="doingList"> </ul> </section> <section class="todo-sec completedItems"> <h3>Completed Items <span class="fa fa-check"></span></h3> <ul class="list-cards" id="completeList"> </ul> </section> </div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Close Categorgies list</button> </div> </div> </div> </div`;
 
         // get parent id's for items
         const catList = document.getElementById('catList_cards');
@@ -176,47 +179,57 @@ $(document).ready(function() {
         });
     }
 
-    const updateId = (idVal, listItemsLeft) => {
-          console.log('i run');
-
+    const getRemainingId = (idVal) => {
           // array to store each item data-id-count value. loops and checkes after an item has been deleted
-
           $('.cat-card').each(function(){
             let temp = Math.floor($(this).attr('data-id-count'));
             // console.log(`Items id\'s: ${temp}`);
             item_id_countArr.push(temp);
-
           })
 
+          item_id_countArr.sort(function(a,b){return a - b});
+          console.log(`before: ${item_id_countArr}`);
 
-          function checkOrder() {
-            console.log(`Array Values: ${item_id_countArr}`);
-
-            // console.log();
-            // new array id values should be printed out here
-            // console.log(newArr.length);
-            if (newArr.length > 0) {
-              //wipe array; and then add back to it getting updated list total
-              newArr.splice(0, newArr.length);
-              newArr.push(...item_id_countArr);
-            }
-            else {
-              // runs once at the beginning of program.
-              newArr.push(...item_id_countArr);
-              // return newArr;
-            }
-              console.log(newArr);
-            function updateExisting() {
-              item_id_countArr.splice(0, item_id_countArr.length);
-              return item_id_countArr;
-            }
-            updateExisting();
+          let temp = 0;
+          if (item_id_countArr[0] === 1) {
+            temp +=1;
+            console.log(`temp: ${temp}`);
           }
-          checkOrder();
-          // console.log(`UPDATED Array Values: ${item_id_countArr}`);
-          // return item_id_countArr;
 
-    } // end update ID function
+          if (temp === 1) {
+            console.log(`deleted id data-id-count value: ${idVal}`);
+            let t = idVal - 1;
+            for (let i = t; i < item_id_countArr.length; i++) {
+              item_id_countArr[i] -=1;
+            }
+          }
+          else if (temp === 0) {
+            for (let j = 0; j < item_id_countArr.length; j++) {
+              item_id_countArr[j] -= 1;
+            }
+          }
+
+    } // end getRemainingId function
+
+    const updateDataIdAttr = () =>{
+      // console.log('updateDataIdAttr Results: ');
+      item_id_countArr.sort(function(a,b){return b - a});
+      let num = -1;
+      $('.cat-card').each(function(){
+        $(this).attr('data-id-count', item_id_countArr[num += 1])
+      })
+    }
+
+    // used to clear the array each time item is deleted so array can be updated with new items left on page
+    function clearExisting() {
+      console.log('array updated');
+      if (item_id_countArr.length > 0) {
+          item_id_countArr.splice(0, item_id_countArr.length);
+          console.log('item_id_count_arr after splice: ');
+          console.log(item_id_countArr);
+      }
+      return item_id_countArr;
+    }
 
 
     const deleteCatModal = () => {
@@ -224,7 +237,7 @@ $(document).ready(function() {
             let item = this.parentNode.parentNode.parentNode.parentNode.parentNode;
             let parent = item.parentNode;
             let textBoxValue = $(this).parent().children('.category-t').text();
-
+            delId = $(item).attr('data-id-count');
             // get the id from the deleted attribute
             let id = $(item).attr('data-mdl-id');
             // code here is used to remove items & modals
@@ -240,7 +253,7 @@ $(document).ready(function() {
 
             //get length of list after item is deleted;
 
-            updateId(id, categories.length);
+            getRemainingId(delId);
 
             //display updated categories array; use when debugging
             setTimeout(function() {
@@ -249,13 +262,17 @@ $(document).ready(function() {
                 console.log("");
                 console.log(`count num after -- (${countNum})`);
                 console.log(`deleted item id: ${id}`);
+                console.log(item_id_countArr);
                 // console.log('Updated Array Below:');
                 // $.each(categories, function(i, item) {
                 //     console.log(categories[i].name);
                 // })
                 console.log(" ");
                 console.log(" ");
+
                 slideUp(categories.length);
+                updateDataIdAttr();
+                clearExisting();
             }, 1000);
 
 
@@ -337,34 +354,3 @@ $(document).ready(function() {
 
 
 })
-
-
-// get all the list item ID's that are on the page
-  // let theIds = [];
-  // $('.cat-card').each(function(val) {
-  //     if ($(this).attr('data-mdl-id') === 'undefined') {
-  //       return;
-  //     }
-  //     else{
-  //       console.log(`modal id's for each list item left on page: ${$(this).attr('data-mdl-id')}`);
-  //
-  //       theIds.push($(this).attr('data-mdl-id'));
-  //     }
-  //
-  // });
-  // console.log("");
-  // console.log(theIds);
-  // console.log("");
-  // let card = idVal,
-  //     liLeft = listItemsLeft;
-  // console.log(`card: ${card}`);
-  // let search = parseInt(card.replace(/catmodal-/i, ' ').trim());
-  // console.log(`search: ${search}`);
-  // console.log(`search: ${typeof search}`);
-  //
-  // if (liLeft > 0) {
-  //     if (search > 1) {
-  //         search -= 1;
-  //         return search;
-  //     }
-  // }
