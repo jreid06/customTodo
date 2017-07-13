@@ -364,7 +364,8 @@ ul.list-cards:empty::before {
   box-shadow: 0 0 20px;
   border: 1px solid #4E4A43;
   text-align: center;
-  float: right;
+  position: absolute;
+  left: 87%;
   width: 20%;
   height: inherit; }
   .delete-cat i {

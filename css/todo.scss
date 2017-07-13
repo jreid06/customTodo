@@ -536,10 +536,10 @@ ul.list-cards:empty::before {
     border: 1px solid $dark-grey-brown;
     text-align: center;
     // border: 2px solid;
-    // position: relative;
+    position: absolute;
     // height: 100px;
-    // left: 15px;
-    float: right;
+    left: 87%;
+    // float: right;
     width: 20%;
     height: inherit;
     // position: relative;
