@@ -220,6 +220,7 @@ $(document).ready(function() {
       let num = -1;
           num2 = -1;
           num3 = -1;
+
       $('.cat-card').each(function(){
         $(this).attr({'data-id-count': item_id_countArr[num += 1], 'data-mdl-id': `catmodal-${item_id_countArr[num]}`});
       })
@@ -288,7 +289,7 @@ $(document).ready(function() {
                 slideUp(categories.length);
                 updateDataIdAttr();
                 clearExisting();
-            }, 1000);
+            }, 10);
 
 
         }) // end of click event
