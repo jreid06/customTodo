@@ -34,7 +34,7 @@ const CategoryClass = function(name){
   this.doing = [];
   this.completed = [];
   this.genID = function(){
-    this.id = countNum;
+    this.id = countNum + 1;
     count();
   }
 }
@@ -45,7 +45,7 @@ let categories = [];
 // click functions
 function clickItem(clickItm, inp, clearInp, type) {
   document.getElementById(clickItm).addEventListener('click', function(){
-    let val = input.val();
+    let val = inp.val();
 
     switch (type) {
       case 'cat':
@@ -59,6 +59,7 @@ function clickItem(clickItm, inp, clearInp, type) {
             createItem(val);
             slideUpDown('.cat-input');
             // updateStorage();
+            inp.val('');
           }
         break;
       case 'list':
@@ -84,16 +85,24 @@ function clickItem(clickItm, inp, clearInp, type) {
               createItem(val);
               slideUpDown('.cat-input');
               // updateStorage();
+
+              this.value = '';
             }
           break;
-        case 'list':
-
-          break;
       }
-
     }
-
   })
+
+  del = clearInp.attr('id');
+  document.getElementById(del).addEventListener('click', function(){
+    inp.val('');
+  })
+}
+
+const catItemControls = (item)=>{
+
+  let catitem = item.parentNode.parentNode.parentNode.parentNode.parentNode;
+  console.log(catitem);
 }
 
 // actions
@@ -145,6 +154,8 @@ const createItem = (catTitle, id, event) => {
     </li>`;
   let destList = document.getElementById('catList_cards');
   $(destList).prepend(listHtml);
+
+
 }
 
 clickItem('addCat', $('#inpCat'), $('#clearBox'), $('.inputBox').attr('data-type'));
