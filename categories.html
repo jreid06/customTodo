@@ -32,9 +32,9 @@
         <div class="content">
             <div class="row">
                 <section class="cat-input">
-                    <input type="text" name="" value="" class="inputBox inputCat" id="inpCat" placeholder="create category ..">
-                    <div class="input-buttons"><span class="fa fa-plus-circle" id="addCat"></span></div>
-                    <div class="input-buttons" id="clearBox"><span class="fa fa-times-circle-o"></span></div>
+                    <input type="text" name="" value="" class="inputBox inputCat" id="inpCat" placeholder="create category .." data-type="cat">
+                    <div class="input-buttons" data-type="cat"><span class="fa fa-plus-circle" id="addCat"></span></div>
+                    <div class="input-buttons" id="clearBox" data-type="cat"><span class="fa fa-times-circle-o"></span></div>
                 </section>
             </div>
             <div class="row">
@@ -134,12 +134,12 @@
         <section class="inputField list-input">
           <input type="text" name="" value="" class="inputBox inputList" id="inpList" placeholder="Add List Items ...">
           <div class="input-buttons"><span class="fa fa-plus-circle" id="addItem"></span></div>
-          <div class="input-buttons clearBox" id="clearItem"><span class="fa fa-times-circle-o"></span></div>
+          <div class="input-buttons" id="clearItem"><span class="fa fa-times-circle-o"></span></div>
         </section>
         <section class="todo-sec todoItems">
           <h3>Todo Items <span class="fa fa-tasks"></span></h3>
           <ul class="list-cards" id="todoList">
-            <li class="list-card animated fadeIn" id="catItm">
+            <!-- <li class="list-card animated fadeIn" id="catItm">
               <div class="bar">
                 <div class="row description">
                   <div class="col-xs-12">
@@ -166,9 +166,8 @@
                       </div>
                     </div>
                 </div>
-
               </div>
-            </li>
+            </li> -->
           </ul>
         </section>
         <section class="todo-sec doingItems">

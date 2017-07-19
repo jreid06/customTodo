@@ -610,7 +610,7 @@ ul.list-cards:empty::before {
 }
 
 .todo-sec{
-  height: 100px;
+  min-height: 100px;
   // border: 1px solid green;
   margin-bottom: 20px;
   h3{

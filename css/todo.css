@@ -411,7 +411,7 @@ ul.list-cards:empty::before {
   border: 0px solid; }
 
 .todo-sec {
-  height: 100px;
+  min-height: 100px;
   margin-bottom: 20px; }
   .todo-sec h3 {
     padding-bottom: 10px;

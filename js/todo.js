@@ -48,22 +48,145 @@ $(document).ready(function() {
     }
 
     // adds category to storage object to storage
-    const storeCategory = function(input) {
+    const storeCategoryList = function(input, identity) {
+
+        const id = ['addCat','inpCat','addItem'];
+        console.log("identity: " + identity);
         // let num = 100;
         // create object for cat item;
-        categories.push(new CatConstruct(input));
+        if(identity === id[0] || identity === id[1]){
+          categories.push(new CatConstruct(input));
+        }
+        else if (identity === id[1]){
+          categories[0].todo.push(input);
+        }
+
         // return categories;
         console.log(categories);
     }
 
-    // const updateLeftCats = (inp)=>{
-    //   $.each($(imp), function(i, item){
-    //     console.log(`modal id's for each list item: ${$(this).attr('data-mdl-id')}`);
-    //   })
-    // }
+    const deleteListItem = () => {
+      console.log('activated');
+      $('.delete-list').click(function(event){
+        console.log('click works');
+        let item = this.parentNode.parentNode.parentNode.parentNode.parentNode;
+        let parent = item.parentNode;
+        console.log(item);
 
+        // parent.removeChild(item);
+        $('#listItm').remove();
+      })
+}
+
+
+      const listInputFunc = () => {
+
+        $('#addItem').click(function(event){
+          let listVal = $('#inpList').val();
+          if (listVal) {
+            createListItem(listVal);
+            deleteListItem();
+            $('#inpList').val('');
+          }
+          else {
+            alert('cant have an empty list item!!');
+          }
+
+        })
+        document.getElementById('inpList').addEventListener('keypress', function(event){
+          let listVal = this.value;
+          if (event.keyCode === 13) {
+            if (listVal) {
+              createListItem(listVal);
+              deleteListItem();
+              this.value = "";
+            }
+            else {
+              alert('cant have an empty list item!!');
+            }
+
+          }
+        })
+        document.getElementById('clearItem').addEventListener('click', function(){
+          $('#inpList').val("");
+        })
+      }
 
     // VIEW
+
+    const showModals = (mdlTarget) => {
+        // input functions
+
+        // // deleteListItem function
+        // const deleteListItem = () => {
+        //   console.log('activated');
+        //   $('.delete-list').click(function(event){
+        //     console.log('click works');
+        //     let item = this.parentNode.parentNode.parentNode.parentNode.parentNode;
+        //     let parent = item.parentNode;
+        //     console.log(item);
+        //
+        //     // parent.removeChild(item);
+        //     $('#listItm').remove();
+        //   })
+        // }
+
+
+        // call modal functions
+
+        $(mdlTarget).on('show.bs.modal', function(event){
+          console.log('modal clicked');
+          listInputFunc();
+          // createListItem();
+          deleteListItem();
+        })
+    }
+
+    const createListItem = (listItem) => {
+      // list item template code
+      let listHtml = `<li class="list-card animated fadeIn" id="listItm">
+        <div class="bar">
+          <div class="row description">
+            <div class="col-xs-12">
+              <section class="custom-height">
+                <p class="category-t">${listItem}</p>
+                <p class="delete-cat delete-list" id="delItem"><i class="fa fa-times-circle-o hvr hvr-grow"></i></p>
+              </section>
+            </div>
+          </div>
+          <div class="row bar">
+              <div class="col-xs-2 col-xs-offset-3 col active">
+                <div class="list-buttons" id="lb1">
+                  <span class="fa fa-tasks"></span>
+                </div>
+              </div>
+              <div class="col-xs-2 col">
+                <div class="list-buttons" id="lb2">
+                  <span class="fa fa-spinner"></span>
+                </div>
+              </div>
+              <div class="col-xs-2 col">
+                <div class="list-buttons" id="lb3">
+                <span class="fa fa-check"></span>
+                </div>
+              </div>
+          </div>
+
+        </div>
+        </li>`;
+
+      // get parent id's for items
+      const list = document.getElementById('todoList');
+
+      list.innerHTML = listHtml + list.innerHTML;
+
+      // stops issue with fade on items when new one is created
+      setTimeout(function() {
+          if ($('.list-card').hasClass('fadeIn')) {
+              $('.list-card').removeClass('fadeIn');
+          }
+      }, 2100);
+    }
 
     const createCatFunc = (usrInput, event) => {
         count();
@@ -101,7 +224,7 @@ $(document).ready(function() {
           </li>`;
 
 
-          let modalList = `<div class="modal list-modals fade" tabindex="-1" role="dialog" id="catmodal-${countNum}"> <div class="modal-dialog" role="document"> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> <h4 class="modal-title"><strong>${usrInput}</strong></h4> </div> <div class="modal-body"> <section class="inputField list-input"> <input type="text" name="" value="" class="inputBox inputList" id="inpList" placeholder="Add List Items ..."><div class="input-buttons"><span class="fa fa-plus-circle" id="addItem"></span></div> <div class="input-buttons clearBox" id="clearItem"><span class="fa fa-times-circle-o"></span></div> </section> <section class="todo-sec todoItems"> <h3>Todo Items <span class="fa fa-tasks"></span></h3> <ul class="list-cards" id="todoList"> <li class="list-card animated fadeIn" id="listItm"> <div class="bar"> <div class="row description"> <div class="col-xs-12"> <section class="custom-height"> <p class="category-t">${usrInput}</p> <p class="delete-cat" id="delItem"><i class="fa fa-times-circle-o hvr hvr-grow"></i></p> </section> </div> </div> <div class="row bar"> <div class="col-xs-2 col-xs-offset-3 col"> <div class="list-buttons" id="lb1"> <span class="fa fa-tasks"></span> </div> </div> <div class="col-xs-2 col"> <div class="list-buttons" id="lb2"> <span class="fa fa-spinner"></span> </div> </div> <div class="col-xs-2 col"> <div class="list-buttons" id="lb3"> <span class="fa fa-check"></span> </div> </div> </div> </div> </li> </ul> </section> <section class="todo-sec doingItems"> <h3>Doing Items <span class="fa fa-spinner"></span></h3> <ul class="list-cards" id="doingList"> </ul> </section> <section class="todo-sec completedItems"> <h3>Completed Items <span class="fa fa-check"></span></h3> <ul class="list-cards" id="completeList"> </ul> </section> </div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Close Categorgies list</button> </div> </div> </div> </div`;
+            let modalList = `<div class="modal list-modals fade" tabindex="-1" role="dialog" id="catmodal-${countNum}"> <div class="modal-dialog" role="document"> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> <h4 class="modal-title"><strong>${usrInput}</strong></h4> </div> <div class="modal-body"> <section class="inputField list-input"> <input type="text" name="" value="" class="inputBox inputList" id="inpList" placeholder="Add List Items ..."><div class="input-buttons"><span class="fa fa-plus-circle" id="addItem"></span></div> <div class="input-buttons clearBox" id="clearItem"><span class="fa fa-times-circle-o"></span></div> </section> <section class="todo-sec todoItems"> <h3>Todo Items <span class="fa fa-tasks"></span></h3> <ul class="list-cards" id="todoList"> </ul> </section> <section class="todo-sec doingItems"> <h3>Doing Items <span class="fa fa-spinner"></span></h3> <ul class="list-cards" id="doingList"> </ul> </section> <section class="todo-sec completedItems"> <h3>Completed Items <span class="fa fa-check"></span></h3> <ul class="list-cards" id="completeList"> </ul> </section> </div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Close Categorgies list</button> </div> </div> </div> </div`;
 
         // get parent id's for items
         const catList = document.getElementById('catList_cards');
@@ -117,6 +240,7 @@ $(document).ready(function() {
             }
         }, 2100);
 
+
         //gives list item a new id
           // let attrId = $('#catItm').attr('id');
           // console.log(attrId);
@@ -129,7 +253,66 @@ $(document).ready(function() {
           // $('#catItm').attr('id', attrId);
 
           // count++;
+
     }
+
+    // const modalFunctions = () => {
+      //   console.log('modal functions has been initialized');
+      //
+      //
+      //   // input functions
+      //   const listInputFunc = () => {
+      //
+      //     $('#addItem').click(function(event){
+      //       let listVal = $('#inpList').val();
+      //       if (listVal) {
+      //         createListItem(listVal);
+      //         deleteListItem();
+      //         $('#inpList').val('');
+      //       }
+      //       else {
+      //         alert('cant have an empty list item!!');
+      //       }
+      //
+      //     })
+      //     document.getElementById('inpList').addEventListener('keypress', function(event){
+      //       let listVal = this.value;
+      //       if (event.keyCode === 13) {
+      //         if (listVal) {
+      //           createListItem(listVal);
+      //           deleteListItem();
+      //           this.value = "";
+      //         }
+      //         else {
+      //           alert('cant have an empty list item!!');
+      //         }
+      //
+      //       }
+      //     })
+      //     document.getElementById('clearItem').addEventListener('click', function(){
+      //       $('#inpList').val("");
+      //     })
+      //   }
+      //
+      //   // deleteListItem function
+      //   const deleteListItem = () => {
+      //     console.log('activated');
+      //     $('.delete-list').click(function(event){
+      //       console.log('click works');
+      //       let item = this.parentNode.parentNode.parentNode.parentNode.parentNode;
+      //       let parent = item.parentNode;
+      //       console.log(item);
+      //
+      //       // parent.removeChild(item);
+      //       $('#listItm').remove();
+      //     })
+      //   }
+      //   // call modal functions
+      //   // listInputFunc();
+      //
+      // }
+
+
 
     const slideUp = (catLength) => {
         if (catLength >= 1 && catLength <= 1) {
@@ -152,9 +335,15 @@ $(document).ready(function() {
             let value = input.val();
             if (value) {
                 // creates our list item
-                createCatFunc(value);
-                storeCategory(value);
-                slideUp(categories.length);
+                console.log("");
+                let identifyStorageDestination = $(this).attr('id');
+                console.log(`identifyStorageDestination: ${identifyStorageDestination}`);
+                if(identifyStorageDestination === 'addCat'){
+                    createCatFunc(value);
+                    storeCategoryList(value, identifyStorageDestination);
+                    slideUp(categories.length);
+                    showModals($('.modal'));
+                }
 
                 // init deleteCatModal function for list item
                 deleteCatModal();
@@ -165,16 +354,31 @@ $(document).ready(function() {
                 alert("No Input");
             }
         });
-        let inputTest = document.getElementById('inpCat').addEventListener('keypress', function(e) {
-            if (e.keyCode === 13) {
-                createCatFunc(this.value);
-                storeCategory(this.value);
-                slideUp(categories.length);
+        document.getElementById('inpCat').addEventListener('keypress', function(event) {
+            if (event.keyCode === 13) {
+                let v = this.value;
+                if (v) {
+                    // creates our list item
+                    console.log("");
+                    console.log(v);
+                    let identifyStorageDestination = $(this).attr('id');
+                    console.log(`identifyStorageDestination: ${identifyStorageDestination}`);
+                    if(identifyStorageDestination === 'inpCat'){
+                        createCatFunc(v);
+                        storeCategoryList(v, identifyStorageDestination);
+                        slideUp(categories.length);
+                        showModals($('.modal'));
+                    }
 
-                // init deleteCatModal function for list item
-                deleteCatModal();
+                    // init deleteCatModal function for list item
+                    deleteCatModal();
 
-                this.value = "";
+                    // clear the value of the input field
+                    this.value = "";
+                } else {
+                    alert("No Input");
+                }
+
             }
         });
         document.getElementById(clearBtn).addEventListener('click', function() {
@@ -253,12 +457,16 @@ $(document).ready(function() {
             let item = this.parentNode.parentNode.parentNode.parentNode.parentNode;
             let parent = item.parentNode;
             let textBoxValue = $(this).parent().children('.category-t').text();
+
+            // get the id from the deleted attribute to update id's dynamically
             delId = $(item).attr('data-id-count');
-            // get the id from the deleted attribute
+
+            // used to delete correct modal
             let id = $(item).attr('data-mdl-id');
+
             // code here is used to remove items & modals
-            parent.removeChild(item);
-            $(`#${id}`).remove();
+            parent.removeChild(item); // item
+            $(`#${id}`).remove(); // modal
 
             // deletes value from array based on a linear search
             for (let i = 0; i < categories.length; i++) {
@@ -276,9 +484,14 @@ $(document).ready(function() {
                 c_minus();
                 console.log("");
                 console.log("");
+
                 console.log(`count num after -- (${countNum})`);
                 console.log(`deleted item id: ${id}`);
                 console.log(item_id_countArr);
+
+                console.log("");
+
+                console.log(categories);
                 // console.log('Updated Array Below:');
                 // $.each(categories, function(i, item) {
                 //     console.log(categories[i].name);
@@ -298,10 +511,9 @@ $(document).ready(function() {
 
 
 
-
-
     // Call functions
     getInputVal($('#addCat').attr('id'), $('#clearBox').attr('id'), $('#inpCat'));
+    showModals($('.modal'));
     // deleteCat();
 
 
@@ -311,62 +523,63 @@ $(document).ready(function() {
 
 
 
+
     // will store single values with key=>value pair
-    localStorage.setItem("name", "jason reid");
-    let carType;
-
-
-    $('#myBtn2').click(function() {
-        carType = 'Vauxhall corsa';
-        localStorage.setItem("car", carType);
-        $('#storage1').text(localStorage.getItem("car"));
-    })
-
-    $('#myBtn3').click(function() {
-        let pTag = document.createElement('p');
-        pTag.classList.add('created');
-        pTag.innerText = 'hello';
-        let position = document.getElementById('screate');
-
-        position.insertBefore(pTag, position.childNodes[0]);
-        let mynode = pTag.parentNode;
-        console.log(mynode);
-        // let stringNode = JSON.stringify(node);
-        let stringNode = mynode.toString();
-
-        console.log(stringNode);
-        // localStorage.setItem('node', stringNode);
-    })
-
-    let obj = {
-        fname: 'reid',
-        age: 22
-    }
-
-    // this will turn object into a string so it can be stored in localStorage
-    let str = JSON.stringify(obj);
-    localStorage.setItem('testobj', str);
-
-    $('#storage1').text(localStorage.getItem("car"));
-
-    //we retrieve object that has been stored as a string
-    let retrieveObjString = localStorage.getItem('testobj');
-
-    // before we can use the object we have to turn it back into an object
-    let retrieveObj = JSON.parse(retrieveObjString);
-
-    // console.log(typeof retrieveObj);
-    // console.log(retrieveObj.fname);
-
-    $('#storage2').text(retrieveObj.fname);
-
-    $('#myBtn').click(function(e) {
-        carType = 'porshe';
-        localStorage.setItem('car', carType);
-        // localStorage.removeItem('car');
-        $('#storage1').text(localStorage.getItem("car"));
-        return carType;
-    })
+      // localStorage.setItem("name", "jason reid");
+      // let carType;
+      //
+      //
+      // $('#myBtn2').click(function() {
+      //     carType = 'Vauxhall corsa';
+      //     localStorage.setItem("car", carType);
+      //     $('#storage1').text(localStorage.getItem("car"));
+      // })
+      //
+      // $('#myBtn3').click(function() {
+      //     let pTag = document.createElement('p');
+      //     pTag.classList.add('created');
+      //     pTag.innerText = 'hello';
+      //     let position = document.getElementById('screate');
+      //
+      //     position.insertBefore(pTag, position.childNodes[0]);
+      //     let mynode = pTag.parentNode;
+      //     console.log(mynode);
+      //     // let stringNode = JSON.stringify(node);
+      //     let stringNode = mynode.toString();
+      //
+      //     console.log(stringNode);
+      //     // localStorage.setItem('node', stringNode);
+      // })
+      //
+      // let obj = {
+      //     fname: 'reid',
+      //     age: 22
+      // }
+      //
+      // // this will turn object into a string so it can be stored in localStorage
+      // let str = JSON.stringify(obj);
+      // localStorage.setItem('testobj', str);
+      //
+      // $('#storage1').text(localStorage.getItem("car"));
+      //
+      // //we retrieve object that has been stored as a string
+      // let retrieveObjString = localStorage.getItem('testobj');
+      //
+      // // before we can use the object we have to turn it back into an object
+      // let retrieveObj = JSON.parse(retrieveObjString);
+      //
+      // // console.log(typeof retrieveObj);
+      // // console.log(retrieveObj.fname);
+      //
+      // $('#storage2').text(retrieveObj.fname);
+      //
+      // $('#myBtn').click(function(e) {
+      //     carType = 'porshe';
+      //     localStorage.setItem('car', carType);
+      //     // localStorage.removeItem('car');
+      //     $('#storage1').text(localStorage.getItem("car"));
+      //     return carType;
+      // })
 
 
 })
