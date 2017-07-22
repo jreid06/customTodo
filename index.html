@@ -35,7 +35,7 @@
               <button class="s5" id="myBtn3">Create</button>
               <div class="showCreated" id="screate"> -->
                 <!-- <p class="created"></p> -->
-              </div>
+              <!-- </div> -->
               <section class="title">
                 <div class="titles">
                   <p class="h2-cus" data-fade="true" data-fade-delay="0s">my <span class="underline"></span></p>
@@ -44,11 +44,12 @@
                 </div>
               </section>
               <section class="home-buttons">
-                <div class="create" style="position: relative; z-index: 1000000;">
-                    <a href="categories.html">create</a>
+                <div class="create" style="position: relative; z-index: 1000000;" id="create">
+                    <!-- <a href="#">create</a> -->
+                    <p>create</p>
                 </div>
 
-                <button class="load" id="load">load</button>
+                <button class="load hidden" id="load">load</button>
               </section>
 
               <footer class="home-footer">
@@ -88,7 +89,7 @@
             <div class="icon">
               <span class="fa fa-plus"></span>
             </div>
-            <p><span>CREATE LIST</span></p>
+            <p><span>CREATE QUICK LIST</span></p>
           </div>
 
           <div class="smallButtons more">
@@ -97,7 +98,7 @@
             </div>
 
             <div class="sbtn unCat" data-toggle="modal">
-              <p>un-categorised items</p>
+              <p>quick list</p>
             </div>
           </div>
         </section>
@@ -135,7 +136,8 @@
   <script>
     new WOW().init();
   </script>
-  <script src="js/todo.js"></script>
+  <script src="js/todo2.js"></script>
+  <script src="js/home.js"></script>
 </body>
 
 </html>

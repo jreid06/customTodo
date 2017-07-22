@@ -457,6 +457,7 @@ $(document).ready(function() {
 
     const deleteCatModal = () => {
         $('.delete-cat').click(function(event) {
+            
             let item = this.parentNode.parentNode.parentNode.parentNode.parentNode;
             let parent = item.parentNode;
             let textBoxValue = $(this).parent().children('.category-t').text();
