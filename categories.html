@@ -34,12 +34,12 @@
                 <section class="cat-input">
                     <input type="text" name="" value="" class="inputBox inputCat" id="inpCat" placeholder="create category .." data-type="cat">
                     <div class="input-buttons" data-type="cat"><span class="fa fa-plus-circle" id="addCat"></span></div>
-                    <div class="input-buttons" id="clearBox" data-type="cat"><span class="fa fa-times-circle-o"></span></div>
+                    <div class="input-buttons" data-type="cat"><span class="fa fa-times-circle-o" id="clearBox"></span></div>
                 </section>
             </div>
             <div class="row">
                 <section class="categories-list">
-                    <p data-toggle="modal" data-target="#catmodal-test">open test modal</p>
+                    <!-- <p data-toggle="modal" data-target="#catmodal-test">open test modal</p> -->
                     <!-- categories list code -->
                     <ul class="list-cards" id="catList_cards"></ul>
                 </section>
@@ -84,7 +84,7 @@
     <script>
         new WOW().init();
     </script>
-    <script src="js/todo.js"></script>
+    <script src="js/todo2.js"></script>
 </body>
 
 </html>
@@ -139,7 +139,7 @@
         <section class="todo-sec todoItems">
           <h3>Todo Items <span class="fa fa-tasks"></span></h3>
           <ul class="list-cards" id="todoList">
-            <!-- <li class="list-card animated fadeIn" id="catItm">
+            <li class="list-card animated fadeIn" id="catItm">
               <div class="bar">
                 <div class="row description">
                   <div class="col-xs-12">
@@ -167,7 +167,7 @@
                     </div>
                 </div>
               </div>
-            </li> -->
+            </li>
           </ul>
         </section>
         <section class="todo-sec doingItems">

@@ -405,11 +405,14 @@ $(document).ready(function() {
 
           if (temp === 1) {
             console.log(`deleted id data-id-count value: ${idVal}`);
+            //deleted item number - 1;
             let t = idVal - 1;
+            // start from deleted items position and -1 from each value updating id's
             for (let i = t; i < item_id_countArr.length; i++) {
               item_id_countArr[i] -=1;
             }
           }
+          // -1 from all each value if item 1 is deleted
           else if (temp === 0) {
             for (let j = 0; j < item_id_countArr.length; j++) {
               item_id_countArr[j] -= 1;
@@ -454,6 +457,7 @@ $(document).ready(function() {
 
     const deleteCatModal = () => {
         $('.delete-cat').click(function(event) {
+            
             let item = this.parentNode.parentNode.parentNode.parentNode.parentNode;
             let parent = item.parentNode;
             let textBoxValue = $(this).parent().children('.category-t').text();
