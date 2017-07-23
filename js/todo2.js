@@ -182,10 +182,10 @@ function clickItem(clickItm, inp, clearInp, type) {
               // categories.todo.push(new CategoryClass(val));
               for (var i = 0; i < categories.length; i++) {
                 console.log(categories[i].id);
-                // if (categories[i].id === clickID) {
-                  //   console.log(true);
-                  //   // categories[i].todo.push(val);
-                  // }
+                if (categories[i].id === clickID) {
+                    console.log(true);
+                    categories[i].todo.push(val);
+                  }
               }
 
               console.log(categories);
@@ -381,39 +381,6 @@ const createListItem = (itemTitle, todoList)=>{
 }
 
 const createItem = (catTitle, id) => {
-  // let listHtml = `<li class="list-card animated fadeIn" id="listItm">
-    //   <div class="bar">
-    //     <div class="row description">
-    //       <div class="col-xs-12">
-    //         <section class="custom-height">
-    //           <p class="category-t">${catTitle}</p>
-    //           <p class="delete-cat" id="delItem"><i class="fa fa-times-circle-o hvr hvr-grow"></i></p>
-    //         </section>
-    //       </div>
-    //     </div>
-    //     <div class="row bar">
-    //         <div class="col-xs-2 col-xs-offset-3 col active">
-    //           <div class="list-buttons" id="lb1">
-    //             <span class="fa fa-tasks"></span>
-    //           </div>
-    //         </div>
-    //         <div class="col-xs-2 col">
-    //           <div class="list-buttons" id="lb2">
-    //             <span class="fa fa-spinner"></span>
-    //           </div>
-    //         </div>
-    //         <div class="col-xs-2 col">
-    //           <div class="list-buttons" id="lb3">
-    //           <span class="fa fa-check"></span>
-    //           </div>
-    //         </div>
-    //     </div>
-    //
-    //   </div>
-    //   </li>`;
-  // let countNum =0,
-  //     idCount = 0;
-  // count();
 
   let listHtml = `
     <li class="cat-card animated fadeIn" id="catItm" data-mdl-id="catmodal-${countNum}" data-id-count="${idCount}">
