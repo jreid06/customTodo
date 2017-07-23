@@ -4,7 +4,8 @@
 
 body {
   font-family: 'Boogaloo', cursive;
-  min-width: 320px; }
+  min-width: 320px;
+  background-color: #010001; }
 
 .storage, .s3, .s4, .s5 {
   position: absolute;
