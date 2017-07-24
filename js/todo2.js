@@ -53,35 +53,46 @@ const CategoryClass = function(name){
 }
 
 let currentClickID = '';
+let dataIdModal;
 
 // call Functions
 
 function catItemFunctions() {
 
-  $(`#catmodal-${idCount}`).on('show.bs.modal', function (event) {
+  $('.list-modals').on('show.bs.modal', function (event) {
+    // console.log(`#catmodal-${idCount}`);
     console.log("");
     console.log("");
 
     console.log('clicked');
     let button = $(event.target),
         modal = $(this),
-        dataIdModal = modal.attr('data-id-count'),
-        thisModal = modal.attr('id');
+        thisModal = modal.attr('id'),
+        dataIdModal = modal.attr('data-id-count');
 
     console.log(button);
     console.log(thisModal);
     console.log($(`#${thisModal}`).find('#inpList'));
-    let input = $(`#${thisModal}`).find('#inpList').attr('id');
-    let add = $(`#${thisModal}`).find('#addItem').attr('id');
-    let clr = $(`#${thisModal}`).find('#clearItem').attr('id');
-    let tdlst = modal.find(`#todoList-${dataIdModal}`);
+    let input = $(`#${thisModal}`).find(`#inpList-${dataIdModal}`).attr('id');
+    let add = $(`#${thisModal}`).find(`#addItem-${dataIdModal}`).attr('id');
+    let clr = $(`#${thisModal}`).find(`#clearItem-${dataIdModal}`).attr('id');
 
     //use to understand what the aboive code is doing
     // console.log($(input).attr('id'));
+    console.log(input);
+    console.log(add);
+    console.log(clr);
 
     // initizes click functions for that modal
     clickItem(add,$(`#${input}`), $(`#${clr}`),$(`#${input}`).attr('data-type'));
 
+
+    // get the id of the todo list within that modal to add use when we create an item
+    console.log(dataIdModal);
+    let tdlst = modal.find('.todoItems').find(`#todoList-${dataIdModal}`);
+    console.log(tdlst);
+
+    // variable declared globally that gets the correct todo list ID
     currentClickID = $(tdlst).attr('id');
     console.log(`todolist id = ${currentClickID}`);
 
@@ -90,7 +101,7 @@ function catItemFunctions() {
   // clickItem()
 }
 
-catItemFunctions();
+
 
 // click functions
 
@@ -114,6 +125,10 @@ function clickItem(clickItm, inp, clearInp, type) {
             createItem(val);
             slideUpDown('.cat-input');
             deleteItem();
+
+            createListItem(val, currentClickID);
+            // catItemFunctions();
+
             inp.val('');
           }
         break;
@@ -149,6 +164,7 @@ function clickItem(clickItm, inp, clearInp, type) {
 
         break;
     }
+    return;
   })
 
   let input = inp.attr('id');
@@ -169,7 +185,18 @@ function clickItem(clickItm, inp, clearInp, type) {
               slideUpDown('.cat-input');
               deleteItem();
               // updateStorage();
-
+              // catItemFunctions();
+              // $('.list-cards').each(function(){
+              //   console.log($(this));
+              //   let todo = $(this).attr('id');
+              //   console.log(todo);
+              //   let rep = todo.substr(0, todo.length - 1);
+              //   console.log(`REP: ${rep}`);
+              //   // if ($(this).attr('id') === "todoList") {
+              //   //
+              //   // }
+              //   // $(this).attr({'id':`todoList-${item_id_countArr[num3 += 1]}`, 'data-id-count': item_id_countArr[num3]});
+              // })
 
               this.value = '';
             }
@@ -249,7 +276,10 @@ const updateDataIdAttr = () =>{
   item_id_countArr.sort(function(a,b){return b - a});
   let num = -1,
       num2 = -1,
-      num3 = -1;
+      num3 = -1,
+      num4 = -1,
+      num5 = -1,
+      num6 = -1;
 
   $('.cat-card').each(function(){
     $(this).attr({'data-id-count': item_id_countArr[num += 1], 'data-mdl-id': `catmodal-${item_id_countArr[num]}`});
@@ -259,11 +289,22 @@ const updateDataIdAttr = () =>{
     $(this).attr('data-target', `#catmodal-${item_id_countArr[num2 += 1]}`)
   })
 
-
   // let lowHigh = item_id_countArr.sort(function(a,b){return a - b});
   $('.list-modals').each(function(){
-    $(this).attr('id', `catmodal-${item_id_countArr[num3 += 1]}`)
+    $(this).attr({'id':`catmodal-${item_id_countArr[num3 += 1]}`, 'data-id-count': item_id_countArr[num3]});
   })
+
+  // $('.list-cards').each(function(){
+  //   console.log($(this));
+  //   let todo = $(this).attr('id');
+  //   console.log(todo);
+  //   let rep = todo.substr(0, todo.length);
+  //   console.log(`REP: ${rep}`);
+  //   // if ($(this).attr('id') === "todoList") {
+  //   //
+  //   // }
+  //   // $(this).attr({'id':`todoList-${item_id_countArr[num3 += 1]}`, 'data-id-count': item_id_countArr[num3]});
+  // })
 
 }
 
@@ -413,7 +454,37 @@ const createItem = (catTitle, id) => {
       </div>
     </li>`;
 
-    let modalList = `<div class="modal list-modals fade" tabindex="-1" role="dialog" id="catmodal-${countNum}" data-id-count="${idCount}"> <div class="modal-dialog" role="document"> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> <h4 class="modal-title"><strong>${catTitle}</strong></h4> </div> <div class="modal-body"> <section class="inputField list-input"> <input type="text" data-type="list" name="" value="" class="inputBox inputList" id="inpList" placeholder="Add List Items ..." data-input="${idCount}"><div class="input-buttons"><span class="fa fa-plus-circle" id="addItem"></span></div> <div class="input-buttons clearBox" id="clearItem"><span class="fa fa-times-circle-o"></span></div> </section> <section class="todo-sec todoItems todoList-${idCount}"> <h3>Todo Items <span class="fa fa-tasks"></span></h3> <ul class="list-cards" id="todoList-${idCount}"> </ul> </section> <section class="todo-sec doingItems doingList-${idCount}"> <h3>Doing Items <span class="fa fa-spinner"></span></h3> <ul class="list-cards" id="doingList"> </ul> </section> <section class="todo-sec completedItems doneList-${idCount}"> <h3>Completed Items <span class="fa fa-check"></span></h3> <ul class="list-cards" id="completeList"> </ul> </section> </div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Close Categorgies list</button> </div> </div> </div> </div`;
+    let modalList = `<div class="modal list-modals fade" tabindex="-1" role="dialog" id="catmodal-${countNum}" data-id-count="${idCount}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><strong>${catTitle}</strong></h4> </div>
+            <div class="modal-body">
+                <section class=" inputField list-input">
+                    <input type="text" data-type="list" class="inputBox inputList" id="inpList-${idCount}" placeholder="Add List Items ..." data-input="${idCount}">
+                    <div class="input-buttons"><span class="fa fa-plus-circle" id="addItem-${idCount}"></span></div>
+                    <div class="input-buttons clearBox" id="clearItem-${idCount}"><span class="fa fa-times-circle-o"></span></div>
+                </section>
+                <section class="todo-sec todoItems todoList-${idCount}">
+                    <h3>Todo Items <span class="fa fa-tasks"></span></h3>
+                    <ul class="list-cards" id="todoList-${idCount}"> </ul>
+                </section>
+                <section class="todo-sec doingItems doingList-${idCount}">
+                    <h3>Doing Items <span class="fa fa-spinner"></span></h3>
+                    <ul class="list-cards" id="doingList-${idCount}"> </ul>
+                </section>
+                <section class="todo-sec completedItems doneList-${idCount}">
+                    <h3>Completed Items <span class="fa fa-check"></span></h3>
+                    <ul class="list-cards" id="completeList-${idCount}"> </ul>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close Categorgies list</button>
+            </div>
+        </div>
+    </div>
+    </div`;
 
   const destList = document.getElementById('catList_cards');
   const modalsDiv = document.getElementById('mdlStorage');

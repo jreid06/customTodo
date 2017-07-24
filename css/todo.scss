@@ -472,12 +472,12 @@ span.fa-plus-circle {
     }
 }
 
-.list-cards {
+.list-cardsul, .list-cards{
     // border: 1px solid orange;
   height: auto;
 }
 
-ul.list-cards:empty::before {
+ul.list-cardsul:empty::before {
     content: 'Create a Category. Get Organised!!';
     // padding-left: 50px;
     position: absolute;
