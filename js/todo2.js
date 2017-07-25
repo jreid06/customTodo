@@ -135,16 +135,18 @@ function clickItem(clickItm, inp, clearInp, type) {
       case 'list':
           console.log('list input click');
           if(val){
-            let clickID = Math.floor($(inp).attr('data-input'));
+            let clickID = Math.floor(inp.attr('data-input'));
+              console.log(`clickID: ${clickID}`);
+              // console.log();
 
             // categories.todo.push(new CategoryClass(val));
             for (var i = 0; i < categories.length; i++) {
-              // console.log(categories[i].id);
+              console.log(categories[i].id);
               // console.log(clickID);
-              if (categories[i].id === clickID) {
-                console.log(true);
-                categories[i].todo.push(val);
-              }
+              // if (categories[i].id === clickID) {
+              //   console.log(true);
+              //   categories[i].todo.push(val);
+              // }
             }
 
             // let correctList = this.parentNode;
@@ -204,10 +206,11 @@ function clickItem(clickItm, inp, clearInp, type) {
         case 'list':
             console.log('list input click');
             if(val){
-              let clickID = Math.floor($(inp).attr('data-input')) - 1;
+              let clickID = Math.floor(inp.attr('data-input'));
 
               // categories.todo.push(new CategoryClass(val));
               for (var i = 0; i < categories.length; i++) {
+                console.log(`clickID: ${clickID}`);
                 console.log(categories[i].id);
                 if (categories[i].id === clickID) {
                     console.log(true);
