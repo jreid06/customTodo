@@ -59,7 +59,8 @@ let dataIdModal;
 
 function catItemFunctions() {
 
-  $('.list-modals').on('show.bs.modal', function (event) {
+  let modalIdentity = $('.list-modals').attr('id');
+  $(`#${modalIdentity}`).on('show.bs.modal', function (event) {
     // console.log(`#catmodal-${idCount}`);
     console.log("");
     console.log("");
@@ -72,7 +73,9 @@ function catItemFunctions() {
 
     console.log(button);
     console.log(thisModal);
-    console.log($(`#${thisModal}`).find('#inpList'));
+    // console.log($(`#${thisModal}`).find('#inpList'));
+    console.log(dataIdModal);
+    console.log(modal);
     let input = $(`#${thisModal}`).find(`#inpList-${dataIdModal}`).attr('id');
     let add = $(`#${thisModal}`).find(`#addItem-${dataIdModal}`).attr('id');
     let clr = $(`#${thisModal}`).find(`#clearItem-${dataIdModal}`).attr('id');
@@ -141,12 +144,12 @@ function clickItem(clickItm, inp, clearInp, type) {
 
             // categories.todo.push(new CategoryClass(val));
             for (var i = 0; i < categories.length; i++) {
-              console.log(categories[i].id);
+              // console.log(categories[i].id);
               // console.log(clickID);
-              // if (categories[i].id === clickID) {
-              //   console.log(true);
-              //   categories[i].todo.push(val);
-              // }
+              if (categories[i].id === clickID) {
+                console.log(true);
+                categories[i].todo.push(val);
+              }
             }
 
             // let correctList = this.parentNode;
@@ -186,19 +189,7 @@ function clickItem(clickItm, inp, clearInp, type) {
               createItem(val);
               slideUpDown('.cat-input');
               deleteItem();
-              // updateStorage();
-              // catItemFunctions();
-              // $('.list-cards').each(function(){
-              //   console.log($(this));
-              //   let todo = $(this).attr('id');
-              //   console.log(todo);
-              //   let rep = todo.substr(0, todo.length - 1);
-              //   console.log(`REP: ${rep}`);
-              //   // if ($(this).attr('id') === "todoList") {
-              //   //
-              //   // }
-              //   // $(this).attr({'id':`todoList-${item_id_countArr[num3 += 1]}`, 'data-id-count': item_id_countArr[num3]});
-              // })
+
 
               this.value = '';
             }
@@ -210,10 +201,10 @@ function clickItem(clickItm, inp, clearInp, type) {
 
               // categories.todo.push(new CategoryClass(val));
               for (var i = 0; i < categories.length; i++) {
-                console.log(`clickID: ${clickID}`);
-                console.log(categories[i].id);
+                // console.log(`clickID: ${clickID}`);
+                // console.log(categories[i].id);
                 if (categories[i].id === clickID) {
-                    console.log(true);
+                    console.log(true + ": VALUE ADDED TO TODO ARRAY");
                     categories[i].todo.push(val);
                   }
               }
@@ -279,10 +270,7 @@ const updateDataIdAttr = () =>{
   item_id_countArr.sort(function(a,b){return b - a});
   let num = -1,
       num2 = -1,
-      num3 = -1,
-      num4 = -1,
-      num5 = -1,
-      num6 = -1;
+      num3 = -1;
 
   $('.cat-card').each(function(){
     $(this).attr({'data-id-count': item_id_countArr[num += 1], 'data-mdl-id': `catmodal-${item_id_countArr[num]}`});
@@ -297,17 +285,30 @@ const updateDataIdAttr = () =>{
     $(this).attr({'id':`catmodal-${item_id_countArr[num3 += 1]}`, 'data-id-count': item_id_countArr[num3]});
   })
 
-  // $('.list-cards').each(function(){
-  //   console.log($(this));
-  //   let todo = $(this).attr('id');
-  //   console.log(todo);
-  //   let rep = todo.substr(0, todo.length);
-  //   console.log(`REP: ${rep}`);
-  //   // if ($(this).attr('id') === "todoList") {
-  //   //
-  //   // }
-  //   // $(this).attr({'id':`todoList-${item_id_countArr[num3 += 1]}`, 'data-id-count': item_id_countArr[num3]});
-  // })
+  console.log('item_id_count_arr:');
+  console.log(item_id_countArr);
+
+  $('.list-cards').each(function(){
+    let storeId = $(this).attr('id');
+    let idSubstr = storeId.substr(0, storeId.length - 1);
+    // console.log(idSubstr);
+    let val = $(this).parents('div').eq(3).attr('data-id-count');
+    console.log("list card parent data-id-count attrib: " + val);
+    $(this).attr({'id':`${idSubstr}${val}`});
+    // console.log(`${idSubstr}${val}`);
+  })
+
+//
+  $('.list-input').children().each(function(){
+    let storeId = $(this).attr('id'),
+        val = $(this).parents('div').eq(3).attr('data-id-count'),
+        idSubstr = storeId.replace(/.$/,`${val}`);
+    $(this).attr({'id':`${idSubstr}`});
+    if ($(this).attr('data-input')) {
+      $(this).attr('data-input', `${val}`);
+    }
+    // console.log(`${idSubstr}${val}`);
+  })
 
 }
 
@@ -323,6 +324,23 @@ function clearExisting() {
 }
 
 //////
+const deleteListItem = ()=>{
+  console.log('deleteListItem called');
+  $('#delItem').click(function(event){
+    console.log('delete Item clicked');
+    let item = this.parentNode.parentNode.parentNode.parentNode.parentNode;
+    let parent = item.parentNode;
+    parent.removeChild(item);
+    let textBoxValue = $(this).parent().children('.category-t').text();
+
+    // used to delete list item from the correct category todo.array
+    let modalParentID = $(this).parents('li').attr('id');
+
+    console.log(modalParentID);
+    // categories[modalParentID].todo
+
+  })
+}
 
 const deleteItem = ()=>{
   $('#delCat').click(function(event){
@@ -394,7 +412,7 @@ const createListItem = (itemTitle, todoList)=>{
           <div class="col-xs-12">
             <section class="custom-height">
               <p class="category-t">${itemTitle}</p>
-              <p class="delete-list-item" id="delItem"><i class="fa fa-times-circle-o hvr hvr-grow"></i></p>
+              <p class="delete-cat delete-list" id="delItem"><i class="fa fa-times-circle-o hvr hvr-grow"></i></p>
             </section>
           </div>
         </div>
@@ -421,7 +439,7 @@ const createListItem = (itemTitle, todoList)=>{
     // todo list ID e.g -1 (not minus one) must correspond with modal ID e.g -1 with the numerical park to the
     // const todoSec = document.getElementById('todolist');
     $(`#${todoList}`).prepend(listItem);
-
+    deleteListItem();
 }
 
 const createItem = (catTitle, id) => {
@@ -466,7 +484,7 @@ const createItem = (catTitle, id) => {
             <div class="modal-body">
                 <section class=" inputField list-input">
                     <input type="text" data-type="list" class="inputBox inputList" id="inpList-${idCount}" placeholder="Add List Items ..." data-input="${idCount}">
-                    <div class="input-buttons"><span class="fa fa-plus-circle" id="addItem-${idCount}"></span></div>
+                    <div class="input-buttons " id="addItem-${idCount}"><span class="fa fa-plus-circle"></span></div>
                     <div class="input-buttons clearBox" id="clearItem-${idCount}"><span class="fa fa-times-circle-o"></span></div>
                 </section>
                 <section class="todo-sec todoItems todoList-${idCount}">
@@ -479,7 +497,7 @@ const createItem = (catTitle, id) => {
                 </section>
                 <section class="todo-sec completedItems doneList-${idCount}">
                     <h3>Completed Items <span class="fa fa-check"></span></h3>
-                    <ul class="list-cards" id="completeList-${idCount}"> </ul>
+                    <ul class="list-cards" id="doneList-${idCount}"> </ul>
                 </section>
             </div>
             <div class="modal-footer">
