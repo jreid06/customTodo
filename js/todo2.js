@@ -9,9 +9,18 @@ $(document).ready(function(){
 
 // counter and storage
 
-let countNum = 0;
-let idCount = countNum;
-let truthy = false;
+let countNum = 0,
+    idCount = countNum,
+    truthy = false,
+    listCount = 0;
+
+const l_count = ()=>{
+  listCount++;
+}
+
+const l_minus = ()=>{
+  listCount--;
+}
 
 const count = () => {
     countNum++;
@@ -265,6 +274,22 @@ const getRemainingId = (idVal) => {
 
 } // end getRemainingId function
 
+const updateListNumbers = (parent) => {
+  console.log(`Current Modal TodoList id: #${parent}`);
+  let howMany = $(`#${parent}`).find('li');
+  console.log(howMany.length);
+  let correctListItem = $(`#${parent}`).children('li').attr('id');
+  // let splitClass = correctListItem.split(' ');
+  // console.log(splitClass[0]);
+  // $(`.${splitClass[0]}`).attr('item-num', howMany.length);
+  console.log(correctListItem);
+  setTimeout(function(){
+    $(`#${correctListItem}`).attr({'item-num': howMany.length, 'id': `${correctListItem}${howMany.length}`});
+  }, 800)
+
+
+}
+
 const updateDataIdAttr = () =>{
   // console.log('updateDataIdAttr Results: ');
   item_id_countArr.sort(function(a,b){return b - a});
@@ -273,6 +298,7 @@ const updateDataIdAttr = () =>{
       num3 = -1;
 
   $('.cat-card').each(function(){
+    // goes through each item attribute and updates it with its new value from the array item_id_countArr;
     $(this).attr({'data-id-count': item_id_countArr[num += 1], 'data-mdl-id': `catmodal-${item_id_countArr[num]}`});
   })
 
@@ -334,11 +360,13 @@ const deleteListItem = ()=>{
     let textBoxValue = $(this).parent().children('.category-t').text();
 
     // used to delete list item from the correct category todo.array
-    let modalParentID = $(this).parents('li').attr('id');
+    let modalParentID = $(this).parents('li').attr('item-num');
 
-    console.log(modalParentID);
+    // console.log(modalParentID);
+    console.log(`deleted item position: ${modalParentID}`);
     // categories[modalParentID].todo
 
+    l_minus();
   })
 }
 
@@ -405,6 +433,8 @@ const slideUpDown = (element, n)=>{
 }
 
 const createListItem = (itemTitle, todoList)=>{
+  // listCount = 0;
+  // l_count();
   console.log('list created');
   let listItem = `<li class="list-card animated fadeIn" id="listItm">
       <div class="bar">
@@ -439,6 +469,7 @@ const createListItem = (itemTitle, todoList)=>{
     // todo list ID e.g -1 (not minus one) must correspond with modal ID e.g -1 with the numerical park to the
     // const todoSec = document.getElementById('todolist');
     $(`#${todoList}`).prepend(listItem);
+    updateListNumbers(todoList);
     deleteListItem();
 }
 
