@@ -2,6 +2,9 @@
 
 const catArray = (localStorage.getItem('categories')) ? JSON.parse(localStorage.getItem('categories')) : [];
 
+function getCatlength(arr) {
+  return arr.length;
+}
 // create out count function
 const count = (function() {
     let counter = 0;

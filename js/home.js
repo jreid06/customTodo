@@ -20,7 +20,7 @@ $(document).ready(function(){
   // show home buttons
   const homeButtons = ()=>{
     console.log('home buttons is run');
-    if(getCatlength(categories) > 0){
+    if(getCatlength(catArray) > 0){
       console.log('categories have been created');
         if ($('#load').hasClass('hidden')) {
           $('#load').removeClass('hidden');
