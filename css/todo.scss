@@ -472,6 +472,10 @@ span.fa-plus-circle {
     }
 }
 
+.list-cards{
+  margin-top: 20px;
+}
+
 .list-cardsul, .list-cards{
     // border: 1px solid orange;
   height: auto;
@@ -483,7 +487,17 @@ ul.list-cardsul:empty::before {
     position: absolute;
     // top: 30px;
     left: 50%;
-    margin: 0 0 0 -75px;
+    margin: -10px 0 0 -75px;
+    opacity: 0.3;
+}
+ul.list-cardsul:empty::after {
+    content: 'Create a Category. Get Organised!!';
+    // padding-left: 50px;
+    position: absolute;
+    // top: 30px;
+    transition: all 1s;
+    left: 50%;
+    margin: -10px 0 0 -75px;
     opacity: 0.3;
 }
 
@@ -617,6 +631,7 @@ ul.list-cardsul:empty::before {
     border-bottom: 2px solid $dark-gold;
     border-radius: 10px;
     width: 55%;
+    // margin-top: 20px;
   }
 }
 
