@@ -77,7 +77,7 @@ const categories = (function(input) {
         // catArray[pos].updateList(val);
         catArray[pos].todo2[len].catListCount();
         catArray[pos].todo2[len].lstTitle = `listItm-${catArray[pos].todo2[len].lstID}`;
-        catArray[pos].updateListCounter();
+        // catArray[pos].updateListCounter();
     }
 
     function createCat(input) {
