@@ -268,6 +268,13 @@ $(document).ready(function() {
 
             } else {
                 console.log('list click events should be here');
+                console.log(`MDL-ID ${mdlID}`);
+                categories.getInputVal(inpVal);
+
+                // pushed todolist item into correct category todoArray
+                categories.todoFunc(mdlID - 1);
+                // creates the list item in the modal
+                createListItem(inpVal, 'todoList', mdlID);
             }
             $(inputBox).val('');
 
