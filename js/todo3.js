@@ -2,27 +2,58 @@
 
 const catArray = (localStorage.getItem('categories')) ? JSON.parse(localStorage.getItem('categories')) : [];
 
+
 function getCatlength(arr) {
-  return arr.length;
+    return arr.length;
 }
+
+
 // create out count function
 const count = (function() {
     let counter = 0;
+    let listcount = 0;
 
     return {
         add: function() {
             return counter += 1;
         },
         minus: function() {
-            console.log(counter);
             return counter -= 1;
         },
         total: function() {
             return counter;
+        },
+        listAdd: function() {
+            return listcount += 1;
+        },
+        listMinus: function() {
+            return listcount -= 1;
+        },
+        listTotal: function(){
+            return listcount;
+        },
+        clearListCount: function(){
+          let a = listcount;
+          console.log(`a: ${a}`);
+          let b = listcount - a;
+          console.log(`b: ${b}`);
+          return listcount -= a;
         }
     }
     // return counter;
 })();
+
+const ListDetails = function(name){
+  this.name = name;
+  this.lstID = 0;
+  this.lstTitle = '';
+  this.catListCount = function(){
+    this.lstID = count.listAdd();
+  };
+  this.catListMinus = function(){
+    this.lstID -= 1;
+  }
+}
 
 // create storage for all categories
 const categories = (function(input) {
@@ -40,6 +71,13 @@ const categories = (function(input) {
     }
     const addTodo = (val, pos) => {
         catArray[pos].todo.push(val);
+        catArray[pos].todo2.push(new ListDetails(val));
+        let len = catArray[pos].todo2.length - 1;
+        console.log(catArray[pos]);
+        // catArray[pos].updateList(val);
+        catArray[pos].todo2[len].catListCount();
+        catArray[pos].todo2[len].lstTitle = `listItm-${catArray[pos].todo2[len].lstID}`;
+        catArray[pos].updateListCounter();
     }
 
     function createCat(input) {
@@ -48,14 +86,19 @@ const categories = (function(input) {
             this.listId = '';
             this.id = 0;
             this.todo = [];
+            this.todo2 = [];
+            this.listCounter = 0;
             this.doing = [];
             this.completed = [];
             this.genID = function() {
                 this.id = count.add();
                 // count();
-            }
+            };
             this.minusID = function() {
                 this.id -= 1;
+            };
+            this.updateListCounter = function(){
+              this.listCounter += 1;
             }
         }
         storeCat(new CategoryClass(name));
@@ -107,15 +150,21 @@ $(document).ready(function() {
     }
 
     const renderListItems = (val) => {
-        console.log('render function works');
+        console.log('render LIST function works');
         console.log(catArray);
+
         setTimeout(function() {
+            count.clearListCount();
             // console.log(`Val: ${val}`);
-            let len = catArray[val].todo.length;
+            // val is the position of the clicked categories todolist items
+            let len = catArray[val].todo2.length;
             for (var i = 0; i < len; i++) {
-              console.log(`i: ${i}`);
-              console.log(catArray[val].todo[i]);
-              createListItem(catArray[val].todo[i], 'todoList');
+                count.listAdd();
+                console.log(`i: ${i}`);
+                console.log(catArray[val].todo2[i].name);
+                createListItem(catArray[val].todo2[i].name, 'todoList', mdlID);
+
+                // console.log(catArray[val].todo2.listid[i]);
             }
             // for (var i = 0; i <= catArray[val].todo.length; i++) {
             //     createListItem(catArray[val].todo[i], 'todoList');
@@ -132,25 +181,28 @@ $(document).ready(function() {
             catTitle = catArray[$btnParent - 1].name;
 
         console.log($btnParent);
+
+        //updates mdlID with the current clicked list item id.
         mdlID = $btnParent;
 
 
         modal.find('.modal-title').html(catTitle);
         if (catArray[$btnParent - 1].todo.length > 0) {
-          renderListItems($btnParent - 1);
+            renderListItems($btnParent - 1);
+        } else {
+            console.log('renderListItems doesnt run ');
         }
-        else {
-          console.log('renderListItems doesnt run ');
-        }
-
 
 
     })
 
-    $('#catmodal').on('hidden.bs.modal', function() {
+    $('#catmodal').on('hidden.bs.modal', function(event) {
         let modal = $(this);
         modal.find('.modal-title').html('');
         modal.find('#todoList').html('');
+
+        count.clearListCount();
+
     });
 
 
@@ -181,8 +233,11 @@ $(document).ready(function() {
                     console.log('list click events should be here');
                     console.log(`MDL-ID ${mdlID}`);
                     categories.getInputVal(inpVal);
+
+                    // pushed todolist item into correct category todoArray
                     categories.todoFunc(mdlID - 1);
-                    createListItem(inpVal, 'todoList');
+                    // creates the list item in the modal
+                    createListItem(inpVal, 'todoList', mdlID);
 
                 }
                 button.val('');
@@ -267,6 +322,8 @@ $(document).ready(function() {
             let position = Math.floor($(list).attr('data-id-count'));
             let correctItem = `#${$(list).attr('id')}`;
             console.log(correctItem);
+
+            // updates count variable
             count.minus();
             $(correctItem).remove();
 
@@ -299,17 +356,20 @@ $(document).ready(function() {
         })
     }
 
-    const createListItem = (itemTitle, todoListID) => {
-
+    const createListItem = (itemTitle, todoListID, modalID) => {
         console.log('list created');
+        count.listTotal();
+        // console.log(modalID);
+
+
         let listItem = `
-          <li class="list-card animated fadeIn" id="listItm">
+          <li class="list-card animated fadeIn" id="listItm-${count.listTotal()}" count="${count.listTotal()}">
                 <div class="bar">
                   <div class="row description">
                     <div class="col-xs-12">
                       <section class="custom-height">
                         <p class="category-t">${itemTitle}</p>
-                        <p class="delete-cat delete-list" id="delItem"><i class="fa fa-times-circle-o hvr hvr-grow"></i></p>
+                        <p class="delete-cat delete-list"><i class="fa fa-times-circle-o hvr hvr-grow" id="delItem-${count.listTotal()}"></i></p>
                       </section>
                     </div>
                   </div>
@@ -335,7 +395,99 @@ $(document).ready(function() {
 
         //todolist variable is the id of the list to append the item to
         $(`#${todoListID}`).prepend(listItem);
+
+
+        // update the todolist array with correct list item ids and list count variable
+        // catArray[count.total() - 1].todo2.howManyLists = count.listTotal();
+        // catArray[count.total() - 1].todo2.listid.push(`listItm-${count.listTotal()}`);
+        //used to debug
+        // console.log(catArray[count.total() - 1].todo2.listid[count.listTotal() - 1]);
+
+
+        $(`#delItem-${count.listTotal()}`).on('click', function(event) {
+
+            let button = $(event.target).parents('li').eq(0).attr('id'),
+                listContent = $(`#${button}`).find('p').eq(0).text();
+            console.log(button);
+            console.log(listContent);
+
+            $(`#${button}`).remove();
+            // let currTodoLength = catArray[modalID - 1].todo.length;
+            // console.log(catArray[modalID - 1].todo2.lstTitle.indexOf(listContent));
+            let itemToDelete = catArray[modalID - 1].todo.indexOf(listContent);
+
+            function returnDeletedID(){
+
+              let deletedListID = '';
+
+              catArray[modalID - 1].todo2.forEach(function(obj, index){
+                console.log(`objTitle: ${obj.lstTitle}` );
+                if (obj.lstTitle === button) {
+                  console.log(`obj: ${index}`);
+                  catArray[modalID - 1].todo2.splice(index,1);
+                  deletedListID = obj.lstID;
+                }
+              })
+
+              return deletedListID;
+            }
+
+            let dListID = returnDeletedID();
+            console.log(dListID);
+
+
+            const updateListAttrib = (position)=>{
+              console.log(`updateListAttrib Position: ${position}`);
+              console.log(`Array length: ${catArray[modalID - 1].todo2.length}`);
+              for (let i = position - 1; i < catArray[modalID - 1].todo2.length; i++) {
+                // console.log(catArray[modalID - 1].todo2[i].name);
+                // console.log(`Before: ${catArray[modalID - 1].todo2[i].lstID}`);
+                // console.log(catArray[modalID - 1].todo2[i].catListMinus());
+                // console.log(`After: ${catArray[modalID - 1].todo2[i].lstID}`);
+                console.log("");
+
+                let newList = catArray[modalID - 1].todo2[i],
+                    currentListID = newList.lstID,
+                    listTitleold = newList.lstTitle;
+
+                // stores value of id before update
+                console.log(`Current list ID: ${currentListID}`);
+                console.log(`List title before ${listTitleold}`);
+
+                // changes the id value of the list item
+                newList.lstID -= 1;
+
+                // update listId with new value if items after it have been deleted in chronological order
+                newList.lstTitle = `listItm-${catArray[modalID - 1].todo2[i].lstID}`;
+
+                // newList = catArray[i];
+                console.log(`New List ID: ${newList.lstID}`);
+
+
+                // update list item ID's when item is deleted
+                $(`#${listTitleold}`).attr({
+                    'id': newList.lstTitle,
+                    'count': newList.lstID
+                });
+
+                // update the delete buttons IDs when an item is deleted
+                $(`#${newList.lstTitle}`).find('p').eq(1).children().attr('id', `delCat-${newList.lstID}`);
+
+              }
+            }
+            updateListAttrib(dListID);
+
+            count.listMinus();
+            // catArray[modalID - 1].todo2
+            // console.log(catArray[modalID - 1].todo2.title.indexOf(listContent));
+
+            localStorage.setItem('categories', JSON.stringify(catArray));
+
+        })
     }
+
+
+
 
     const updateDataIdAttr = (position) => {
 
@@ -343,6 +495,7 @@ $(document).ready(function() {
         // sets the starting position from where to update remaining item ID's
         console.log(`updateDataIdAttr: ${position}`);
         console.log(position);
+        // loop sets to start from deleted items position -  1 to get the current item & update ID's
         for (var i = position - 1; i < catArray.length; i++) {
             let newList = catArray[i],
                 currentListID = newList.listId;
@@ -350,14 +503,16 @@ $(document).ready(function() {
             // stores value of id before update
             console.log(`Current list ID: ${currentListID}`);
 
-            // newList.minusID();
+            // changes the id value of the list item
             newList.id -= 1;
+
+            // update listId with new value if items after it have been deleted in chronological order
             newList.listId = `catItm-${catArray[i].id}`;
 
             newList = catArray[i];
             console.log(`New List ID: ${newList.listId}`);
 
-            // use the currentListID value to update the correct listItem
+            // use the currentListID value to update the correct listItem on each iteration
             $(`#${currentListID}`).attr({
                 'id': newList.listId,
                 'data-mdl-id': `catmodal-${newList.id}`,
@@ -370,7 +525,7 @@ $(document).ready(function() {
 
     }
 
-
+    // renders categories on the page
     render();
 
     // category page input boxes controls
