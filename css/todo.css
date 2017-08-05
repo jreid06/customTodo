@@ -432,7 +432,13 @@ ul.list-cardsul:empty::after {
     border-radius: 10px;
     width: 55%; }
 
-.list-card {
+.darkred {
   background-color: darkred; }
+
+.darkgoldenrod {
+  background-color: darkgoldenrod; }
+
+.forestgreen {
+  background-color: forestgreen; }
 
 /*# sourceMappingURL=todo.css.map */

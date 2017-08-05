@@ -642,5 +642,17 @@ ul.list-cardsul:empty::after {
 
 .list-card{
   @extend .cat-card;
-  background-color: darkred;
+  // background-color: darkred;
+}
+
+.darkred{
+	background-color: darkred;
+}
+
+.darkgoldenrod{
+	background-color: $dark-gold;
+}
+
+.forestgreen{
+	background-color: forestgreen;
 }

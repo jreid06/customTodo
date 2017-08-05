@@ -47,6 +47,7 @@ const ListDetails = function(name){
   this.name = name;
   this.lstID = 0;
   this.lstTitle = '';
+  this.statusColor = 'darkred';
   this.catListCount = function(){
     this.lstID = count.listAdd();
   };
@@ -97,8 +98,13 @@ const categories = (function(input) {
             this.minusID = function() {
                 this.id -= 1;
             };
-            this.updateListCounter = function(){
-              this.listCounter += 1;
+            this.updateListCounter = function(choice){
+				if (choice === 'minus') {
+					this.listCounter -= 1;
+				}
+              	else {
+              		this.listCounter += 1;
+              	}
             }
         }
         storeCat(new CategoryClass(name));
@@ -401,7 +407,13 @@ $(document).ready(function() {
 
         //todolist variable is the id of the list to append the item to
         $(`#${todoListID}`).prepend(listItem);
+		let positionList = $(`#${todoListID}`).children(`#listItm-${count.listTotal()}`).attr('count') - 1;
+		console.log(positionList);
+		let positionCat = mdlID - 1,
+			statCol = catArray[positionCat].todo2[positionList].statusColor,
+			idList = catArray[positionCat].todo2[positionList].lstTitle;
 
+		$(`#${idList}`).addClass(`${statCol}`);
 
         // update the todolist array with correct list item ids and list count variable
         // catArray[count.total() - 1].todo2.howManyLists = count.listTotal();
@@ -504,28 +516,53 @@ $(document).ready(function() {
 		// add darkred to list item background-color
 		$(`#${todoBtn}`).on('click', function(){
 			// gets the correct list item to apply the styles to
-			let parent = $(this).parents(`li`).attr('id');
+			let parent = $(this).parents(`li`).attr('id'),
+				parentAttr = $(`#${parent}`).attr('count');
 
 			// apply color styling to list item
 			$(`#${parent}`).css({'background-color': 'darkred', 'transition': 'all .5s'});
+
+			// set the value of statCol to our color & updates key/value pair with new value
+			statCol = "darkred";
+			catArray[positionCat].todo2[parentAttr - 1].statusColor = statCol;
+
+			// update storage with new array
+			localStorage.setItem('categories', JSON.stringify(catArray));
+
 		})
 
 		// add darkgoldenrod to list item background-color
 		$(`#${doingBtn}`).on('click', function(){
 			// gets the correct list item to apply the styles to
-			let parent = $(this).parents(`li`).attr('id');
+			let parent = $(this).parents(`li`).attr('id'),
+				parentAttr = $(`#${parent}`).attr('count');
 
 			// apply color styling to list item
 			$(`#${parent}`).css({'background-color': 'darkgoldenrod', 'transition': 'all .5s'});
+
+			// set the value of statCol to our color & updates key/value pair with new value
+			statCol = "darkgoldenrod";
+			catArray[positionCat].todo2[parentAttr - 1].statusColor = statCol;
+
+			// update storage with new array
+			localStorage.setItem('categories', JSON.stringify(catArray));
 		})
 
 		// add forestgreen to list ite, background-color
 		$(`#${doneBtn}`).on('click', function(){
 			// gets the correct list item to apply the styles to
-			let parent = $(this).parents(`li`).attr('id');
+			let parent = $(this).parents(`li`).attr('id'),
+				parentAttr = $(`#${parent}`).attr('count');
 
 			// apply color styling to list item
 			$(`#${parent}`).css({'background-color': 'forestgreen', 'transition': 'all .5s'});
+
+			// set the value of statCol to our color & updates key/value pair with new value
+			statCol = "forestgreen";
+			catArray[positionCat].todo2[parentAttr - 1].statusColor = statCol;
+
+			// update storage with new array
+			localStorage.setItem('categories', JSON.stringify(catArray));
 		})
     }
 
