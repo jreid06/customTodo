@@ -107,7 +107,6 @@ const categories = (function(input) {
     return {
         getInputVal: function(val) {
             name = val;
-            // add();
         },
         add: function() {
             createCat(name);
@@ -488,12 +487,47 @@ $(document).ready(function() {
             // catArray[modalID - 1].todo2
             // console.log(catArray[modalID - 1].todo2.title.indexOf(listContent));
 
+			// push the updated array into localStorage
             localStorage.setItem('categories', JSON.stringify(catArray));
 
         })
+
+		let todoBtn = $(`#listItm-${count.listTotal()}`).find('#lb1').attr('id'),
+			doingBtn = $(`#listItm-${count.listTotal()}`).find('#lb2').attr('id'),
+			doneBtn = $(`#listItm-${count.listTotal()}`).find('#lb3').attr('id');
+
+		console.log(`Item Title in cat modal: ${itemTitle}`);
+		console.log(todoBtn);
+		console.log(doingBtn);
+		console.log(doneBtn);
+
+		// add darkred to list item background-color
+		$(`#${todoBtn}`).on('click', function(){
+			// gets the correct list item to apply the styles to
+			let parent = $(this).parents(`li`).attr('id');
+
+			// apply color styling to list item
+			$(`#${parent}`).css({'background-color': 'darkred', 'transition': 'all .5s'});
+		})
+
+		// add darkgoldenrod to list item background-color
+		$(`#${doingBtn}`).on('click', function(){
+			// gets the correct list item to apply the styles to
+			let parent = $(this).parents(`li`).attr('id');
+
+			// apply color styling to list item
+			$(`#${parent}`).css({'background-color': 'darkgoldenrod', 'transition': 'all .5s'});
+		})
+
+		// add forestgreen to list ite, background-color
+		$(`#${doneBtn}`).on('click', function(){
+			// gets the correct list item to apply the styles to
+			let parent = $(this).parents(`li`).attr('id');
+
+			// apply color styling to list item
+			$(`#${parent}`).css({'background-color': 'forestgreen', 'transition': 'all .5s'});
+		})
     }
-
-
 
 
     const updateDataIdAttr = (position) => {
