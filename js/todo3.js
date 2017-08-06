@@ -89,7 +89,7 @@ const categories = (function(input) {
             this.id = 0;
             this.todo = [];
             this.todo2 = [];
-            this.listCounter = 0;
+            // this.listCounter = 0;
             this.doing = [];
             this.completed = [];
             this.genID = function() {
@@ -99,14 +99,14 @@ const categories = (function(input) {
             this.minusID = function() {
                 this.id -= 1;
             };
-            this.updateListCounter = function(choice){
-				if (choice === 'minus') {
-					this.listCounter -= 1;
-				}
-              	else {
-              		this.listCounter += 1;
-              	}
-            }
+            // this.updateListCounter = function(choice){
+			// 	if (choice === 'minus') {
+			// 		this.listCounter -= 1;
+			// 	}
+            //   	else {
+            //   		this.listCounter += 1;
+            //   	}
+            // }
         }
         storeCat(new CategoryClass(name));
     }
@@ -209,6 +209,55 @@ $(document).ready(function() {
 
         count.clearListCount();
 
+		console.log("Current Modal Id: " + mdlID);
+
+		// updating listitemCouter
+		function returnStatusCount(arrayPos) {
+			let todoLength = catArray[arrayPos - 1].todo2,
+				darkred = 0,
+				darkgoldenrod = 0,
+				forestgreen = 0;
+
+			for (let i = 0; i < todoLength.length; i++) {
+				switch (todoLength[i].statusColor) {
+					case 'darkred':
+						darkred += 1;
+						break;
+					case 'darkgoldenrod':
+						darkgoldenrod += 1;
+						break;
+					case 'forestgreen':
+						forestgreen += 1;
+						break;
+				}
+
+			}
+
+			return [darkred, darkgoldenrod, forestgreen];
+		}
+
+		let statusCount = returnStatusCount(mdlID),
+			listItem = catArray[mdlID - 1].listId;
+		console.log(statusCount);
+
+
+		$(`#${listItem}`).find('.counter').each(function(){
+			let newId = $(this).attr('id').slice(0,2);
+			switch (newId) {
+				case 'c1':
+					$(`#${newId}-${mdlID}`).html(statusCount[0]);
+					break;
+				case 'c2':
+					$(`#${newId}-${mdlID}`).html(statusCount[1]);
+					break;
+				case 'c3':
+					$(`#${newId}-${mdlID}`).html(statusCount[2]);
+					break;
+				default:
+
+			}
+		})
+
     });
 
 
@@ -303,17 +352,17 @@ $(document).ready(function() {
                 </div>
                 <div class="row counters">
                   <div class="col-xs-2 col-xs-offset-3 col">
-                    <div class="counter" id="c1">
+                    <div class="counter" id="c1-${count.total()}">
                       <p>0</p>
                     </div>
                   </div>
                   <div class="col-xs-2 col">
-                    <div class="counter" id="c2">
+                    <div class="counter" id="c2-${count.total()}">
                       <p>0</p>
                     </div>
                   </div>
                   <div class="col-xs-2 col">
-                    <div class="counter" id="c3">
+                    <div class="counter" id="c3-${count.total()}">
                       <p>0</p>
                     </div>
                   </div>
@@ -431,9 +480,6 @@ $(document).ready(function() {
             let button = $(event.target).parents('li').eq(0).attr('id'),
                 listContent = $(`#${button}`).find('p').eq(0).text(),
 				listCount = $(event.target).parents('li').eq(0).attr('count');
-            console.log(button);
-			console.log(listCount);
-            console.log(listContent);
 
             $(`#${button}`).remove();
 
@@ -464,10 +510,6 @@ $(document).ready(function() {
               console.log(`updateListAttrib Position: ${position}`);
               console.log(`Array length: ${catArray[modalID - 1].todo2.length}`);
               for (let i = position - 1; i < catArray[modalID - 1].todo2.length; i++) {
-                // console.log(catArray[modalID - 1].todo2[i].name);
-                // console.log(`Before: ${catArray[modalID - 1].todo2[i].lstID}`);
-                // console.log(catArray[modalID - 1].todo2[i].catListMinus());
-                // console.log(`After: ${catArray[modalID - 1].todo2[i].lstID}`);
                 console.log("");
 
                 let newList = catArray[modalID - 1].todo2[i],
@@ -523,7 +565,7 @@ $(document).ready(function() {
 		console.log(doingBtn);
 		console.log(doneBtn);
 
-		console.log(catArray[positionCat].todo2[count.listTotal() - 1].statusColor);
+		// used when rendering list items to put active class on correct list-button
 		if (catArray[positionCat].todo2[count.listTotal() - 1].statusColor === 'darkred') {
 			let parentCol = $(`#${todoBtn}`).parent();
 			$(parentCol).addClass('active');
@@ -685,6 +727,18 @@ $(document).ready(function() {
 
             // update the delete button id
             $(`#${newList.listId}`).find('p').eq(1).children().attr('id', `delCat-${newList.id}`);
+
+			const ids = $(`#${newList.listId}`).find('.counter').each(function(){
+				let counterId = $(this).attr('id').slice(0,3),
+					counterVal = $(this).attr('id'),
+					counterRep = Math.floor($(this).attr('id').slice(3,counterVal.length)),
+					finalVal = counterRep -= 1;
+					// replaceEnd = Math.floor(counterId.slice(3,counterId.length));
+
+					counterId = `${counterId}${finalVal}`;
+
+					$(this).attr('id', counterId);
+			});
         }
 
     }
