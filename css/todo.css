@@ -409,7 +409,10 @@ ul.list-cardsul:empty::after {
     background-color: forestgreen; }
 
 .active {
-  border: 3px solid #f2f2f2; }
+  border: 2px solid #f2f2f2;
+  transform: scale(1.2);
+  z-index: 1000;
+  transition: all .5s; }
 
 .counter, .list-buttons {
   text-align: center;

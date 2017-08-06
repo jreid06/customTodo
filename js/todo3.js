@@ -48,6 +48,7 @@ const ListDetails = function(name){
   this.lstID = 0;
   this.lstTitle = '';
   this.statusColor = 'darkred';
+  this.active = '';
   this.catListCount = function(){
     this.lstID = count.listAdd();
   };
@@ -386,18 +387,18 @@ $(document).ready(function() {
                     </div>
                   </div>
                   <div class="row bar">
-                      <div class="col-xs-2 col-xs-offset-3 col active">
-                        <div class="list-buttons" id="lb1">
+                      <div class="col-xs-2 col-xs-offset-3 col">
+                        <div class="list-buttons" id="lb1-${count.listTotal()}">
                           <span class="fa fa-tasks"></span>
                         </div>
                       </div>
                       <div class="col-xs-2 col">
-                        <div class="list-buttons" id="lb2">
+                        <div class="list-buttons" id="lb2-${count.listTotal()}">
                           <span class="fa fa-spinner"></span>
                         </div>
                       </div>
                       <div class="col-xs-2 col">
-                        <div class="list-buttons" id="lb3">
+                        <div class="list-buttons" id="lb3-${count.listTotal()}">
                         <span class="fa fa-check"></span>
                         </div>
                       </div>
@@ -413,7 +414,10 @@ $(document).ready(function() {
 			statCol = catArray[positionCat].todo2[positionList].statusColor,
 			idList = catArray[positionCat].todo2[positionList].lstTitle;
 
+		// adds colour class to list when its created
 		$(`#${idList}`).addClass(`${statCol}`);
+
+
 
         // update the todolist array with correct list item ids and list count variable
         // catArray[count.total() - 1].todo2.howManyLists = count.listTotal();
@@ -425,13 +429,15 @@ $(document).ready(function() {
         $(`#delItem-${count.listTotal()}`).on('click', function(event) {
 
             let button = $(event.target).parents('li').eq(0).attr('id'),
-                listContent = $(`#${button}`).find('p').eq(0).text();
+                listContent = $(`#${button}`).find('p').eq(0).text(),
+				listCount = $(event.target).parents('li').eq(0).attr('count');
             console.log(button);
+			console.log(listCount);
             console.log(listContent);
 
             $(`#${button}`).remove();
-            // let currTodoLength = catArray[modalID - 1].todo.length;
-            // console.log(catArray[modalID - 1].todo2.lstTitle.indexOf(listContent));
+
+
             let itemToDelete = catArray[modalID - 1].todo.indexOf(listContent);
 
             function returnDeletedID(){
@@ -488,6 +494,10 @@ $(document).ready(function() {
                     'count': newList.lstID
                 });
 
+				$(`#${newList.lstTitle}`).find('.list-buttons').attr({
+					'id' : `lb1-${newList.lstID}`
+				});
+
                 // update the delete buttons IDs when an item is deleted
                 $(`#${newList.lstTitle}`).find('p').eq(1).children().attr('id', `delCat-${newList.lstID}`);
 
@@ -504,20 +514,36 @@ $(document).ready(function() {
 
         })
 
-		let todoBtn = $(`#listItm-${count.listTotal()}`).find('#lb1').attr('id'),
-			doingBtn = $(`#listItm-${count.listTotal()}`).find('#lb2').attr('id'),
-			doneBtn = $(`#listItm-${count.listTotal()}`).find('#lb3').attr('id');
+		let todoBtn = $(`#listItm-${count.listTotal()}`).find(`#lb1-${count.listTotal()}`).attr('id'),
+			doingBtn = $(`#listItm-${count.listTotal()}`).find(`#lb2-${count.listTotal()}`).attr('id'),
+			doneBtn = $(`#listItm-${count.listTotal()}`).find(`#lb3-${count.listTotal()}`).attr('id');
 
 		console.log(`Item Title in cat modal: ${itemTitle}`);
 		console.log(todoBtn);
 		console.log(doingBtn);
 		console.log(doneBtn);
 
+		console.log(catArray[positionCat].todo2[count.listTotal() - 1].statusColor);
+		if (catArray[positionCat].todo2[count.listTotal() - 1].statusColor === 'darkred') {
+			let parentCol = $(`#${todoBtn}`).parent();
+			$(parentCol).addClass('active');
+		}
+		else if (catArray[positionCat].todo2[count.listTotal() - 1].statusColor === 'darkgoldenrod') {
+			let parentCol = $(`#${doingBtn}`).parent();
+			$(parentCol).addClass('active');
+		}
+		else {
+			let parentCol = $(`#${doneBtn}`).parent();
+			$(parentCol).addClass('active');
+		}
+
 		// add darkred to list item background-color
 		$(`#${todoBtn}`).on('click', function(){
 			// gets the correct list item to apply the styles to
 			let parent = $(this).parents(`li`).attr('id'),
-				parentAttr = $(`#${parent}`).attr('count');
+				parentAttr = $(`#${parent}`).attr('count'),
+				parentCol = $(this).parent(),
+				todoBtnCol = $(`#${todoBtn}`).parent();
 
 			// apply color styling to list item
 			$(`#${parent}`).css({'background-color': 'darkred', 'transition': 'all .5s'});
@@ -529,13 +555,34 @@ $(document).ready(function() {
 			// update storage with new array
 			localStorage.setItem('categories', JSON.stringify(catArray));
 
+			// returns number referring to position of 'col' when class is split into an array
+			let colParentClassArray = $(this).parent().attr('class').split(' '),
+				colParent = colParentClassArray.indexOf('col'),
+				colValue = colParentClassArray[colParent];
+			console.log(colParent);
+			console.log(colValue);
+			console.log(todoBtnCol);
+
+			let condition1 = ($(`#${doingBtn}`).parent().hasClass(`${colValue}`)),
+				condition2 = ($(`#${doneBtn}`).parent().hasClass(`${colValue}`));
+			if (condition1 && condition2) {
+				$(`#${doingBtn}`).parent().removeClass('active');
+				$(`#${doneBtn}`).parent().removeClass('active');
+				if (!$(parentCol).hasClass('active')) {
+					$(parentCol).addClass('active');
+				}
+			}
+
+
 		})
 
 		// add darkgoldenrod to list item background-color
 		$(`#${doingBtn}`).on('click', function(){
 			// gets the correct list item to apply the styles to
 			let parent = $(this).parents(`li`).attr('id'),
-				parentAttr = $(`#${parent}`).attr('count');
+				parentAttr = $(`#${parent}`).attr('count'),
+				parentCol = $(this).parent(),
+				todoBtnCol = $(`#${todoBtn}`).parent();
 
 			// apply color styling to list item
 			$(`#${parent}`).css({'background-color': 'darkgoldenrod', 'transition': 'all .5s'});
@@ -546,13 +593,34 @@ $(document).ready(function() {
 
 			// update storage with new array
 			localStorage.setItem('categories', JSON.stringify(catArray));
+
+			// returns number referring to position of 'col' when class is split into an array
+			let colParentClassArray = $(this).parent().attr('class').split(' '),
+				colParent = colParentClassArray.indexOf('col'),
+				colValue = colParentClassArray[colParent];
+			console.log(colParent);
+			console.log(colValue);
+			console.log(todoBtnCol);
+
+			let condition1 = ($(`#${todoBtn}`).parent().hasClass(`${colValue}`)),
+				condition2 = ($(`#${doneBtn}`).parent().hasClass(`${colValue}`));
+			if (condition1 && condition2) {
+				$(`#${todoBtn}`).parent().removeClass('active');
+				$(`#${doneBtn}`).parent().removeClass('active');
+				if (!$(parentCol).hasClass('active')) {
+					$(parentCol).addClass('active');
+				}
+			}
+
 		})
 
 		// add forestgreen to list ite, background-color
 		$(`#${doneBtn}`).on('click', function(){
 			// gets the correct list item to apply the styles to
 			let parent = $(this).parents(`li`).attr('id'),
-				parentAttr = $(`#${parent}`).attr('count');
+				parentAttr = $(`#${parent}`).attr('count'),
+				parentCol = $(this).parent(),
+				todoBtnCol = $(`#${todoBtn}`).parent();
 
 			// apply color styling to list item
 			$(`#${parent}`).css({'background-color': 'forestgreen', 'transition': 'all .5s'});
@@ -560,9 +628,27 @@ $(document).ready(function() {
 			// set the value of statCol to our color & updates key/value pair with new value
 			statCol = "forestgreen";
 			catArray[positionCat].todo2[parentAttr - 1].statusColor = statCol;
-
+// s
 			// update storage with new array
 			localStorage.setItem('categories', JSON.stringify(catArray));
+
+			// returns number referring to position of 'col' when class is split into an array
+			let colParentClassArray = $(this).parent().attr('class').split(' '),
+				colParent = colParentClassArray.indexOf('col'),
+				colValue = colParentClassArray[colParent];
+			console.log(colParent);
+			console.log(colValue);
+			console.log(todoBtnCol);
+
+			let condition1 = ($(`#${todoBtn}`).parent().hasClass(`${colValue}`)),
+				condition2 = ($(`#${doingBtn}`).parent().hasClass(`${colValue}`));
+			if (condition1 && condition2) {
+				$(`#${todoBtn}`).parent().removeClass('active');
+				$(`#${doingBtn}`).parent().removeClass('active');
+				if (!$(parentCol).hasClass('active')) {
+					$(parentCol).addClass('active');
+				}
+			}
 		})
     }
 
