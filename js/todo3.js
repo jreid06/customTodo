@@ -71,9 +71,11 @@ const categories = (function(input) {
             }, 600);
         }
     }
+
     const addTodo = (val, pos) => {
         catArray[pos].todo.push(val);
         catArray[pos].todo2.push(new ListDetails(val));
+
         let len = catArray[pos].todo2.length - 1;
         console.log(catArray[pos]);
         // catArray[pos].updateList(val);
@@ -94,7 +96,6 @@ const categories = (function(input) {
             this.completed = [];
             this.genID = function() {
                 this.id = count.add();
-                // count();
             };
             this.minusID = function() {
                 this.id -= 1;
@@ -144,6 +145,27 @@ $(document).ready(function() {
             for (var i = 0; i < catArray.length; i++) {
                 count.add();
                 createCatList('cat', catArray[i].name, '#catList_cards');
+
+				let statusCount = returnStatusCount(catArray[i].id),
+					listItem = catArray[catArray[i].id - 1].listId;
+				console.log(statusCount);
+
+				$(`#${listItem}`).find('.counter').each(function(){
+					let newId = $(this).attr('id').slice(0,2);
+					switch (newId) {
+						case 'c1':
+							$(`#${newId}-${catArray[i].id}`).html(statusCount[0]);
+							break;
+						case 'c2':
+							$(`#${newId}-${catArray[i].id}`).html(statusCount[1]);
+							break;
+						case 'c3':
+							$(`#${newId}-${catArray[i].id}`).html(statusCount[2]);
+							break;
+						default:
+
+					}
+				})
             }
 
             if (catArray.length > 0) {
@@ -152,6 +174,37 @@ $(document).ready(function() {
                 }, 700);
             }
         }, 1000);
+
+
+		function returnStatusCount(arrayPos) {
+			let todoLength = catArray[arrayPos - 1].todo2,
+				darkred = 0,
+				darkgoldenrod = 0,
+				forestgreen = 0;
+
+			for (let i = 0; i < todoLength.length; i++) {
+				switch (todoLength[i].statusColor) {
+					case 'darkred':
+						darkred += 1;
+						break;
+					case 'darkgoldenrod':
+						darkgoldenrod += 1;
+						break;
+					case 'forestgreen':
+						forestgreen += 1;
+						break;
+				}
+
+			}
+
+			return [darkred, darkgoldenrod, forestgreen];
+		}
+
+
+		function findCounterTag(item){
+
+		}
+
 
     }
 
@@ -172,9 +225,7 @@ $(document).ready(function() {
 
                 // console.log(catArray[val].todo2.listid[i]);
             }
-            // for (var i = 0; i <= catArray[val].todo.length; i++) {
-            //     createListItem(catArray[val].todo[i], 'todoList');
-            // }
+
         }, 1000);
 
     }
@@ -561,9 +612,6 @@ $(document).ready(function() {
 			doneBtn = $(`#listItm-${count.listTotal()}`).find(`#lb3-${count.listTotal()}`).attr('id');
 
 		console.log(`Item Title in cat modal: ${itemTitle}`);
-		console.log(todoBtn);
-		console.log(doingBtn);
-		console.log(doneBtn);
 
 		// used when rendering list items to put active class on correct list-button
 		if (catArray[positionCat].todo2[count.listTotal() - 1].statusColor === 'darkred') {
