@@ -200,12 +200,6 @@ $(document).ready(function() {
 			return [darkred, darkgoldenrod, forestgreen];
 		}
 
-
-		function findCounterTag(item){
-
-		}
-
-
     }
 
     const renderListItems = (val) => {

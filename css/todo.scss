@@ -18,6 +18,10 @@ $retina: '(min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), 
     }
 }
 
+a{
+	color: #fff;
+}
+
 .small {
     width: 50% !important;
     margin: 20px auto;
@@ -229,6 +233,9 @@ footer {
     .load {
         background-color: $off-grey-brown;
         @extend .buttonPadding;
+		a{
+			color: #fff;
+		}
     }
 }
 //end of home-buttons
@@ -333,13 +340,17 @@ footer {
         position: relative;
         z-index: 1;
         text-align: center !important;
-
+		a{
+			width: 78%;
+			color: #fff;
+		}
         span {
             // border: 1px dashed green;
             margin-left: -37px;
             width: 100%;
         }
     }
+
     @include respond-to ($phone) {
         height: 100px;
 

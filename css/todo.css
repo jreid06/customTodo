@@ -1,3 +1,6 @@
+a {
+  color: #fff; }
+
 .small {
   width: 50% !important;
   margin: 20px auto; }
@@ -154,6 +157,8 @@ footer, .home-footer {
     background-color: #9A9083; }
   .home-buttons .load {
     background-color: #645A53; }
+    .home-buttons .load a {
+      color: #fff; }
 
 .home-footer {
   color: #f2f2f2; }
@@ -225,6 +230,9 @@ footer, .home-footer {
     position: relative;
     z-index: 1;
     text-align: center !important; }
+    .crteBtn p a {
+      width: 78%;
+      color: #fff; }
     .crteBtn p span {
       margin-left: -37px;
       width: 100%; }
