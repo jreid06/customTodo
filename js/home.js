@@ -2,6 +2,16 @@ $(document).ready(function(){
 
   //click buttons
 
+  $(window).resize(function(){
+
+      if ($(window).width() > 820) {
+          $('.cover').css({'visibility':'visible'});
+      }else {
+          $('.cover').css({'visibility':'hidden'});
+      }
+
+  })
+
   $('#create').on('click', function(){
     showPages('.home-screen', '.create-category');
   })

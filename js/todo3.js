@@ -134,8 +134,20 @@ const categories = (function(input) {
     }
 })();
 
+$(window).resize(function(){
+
+    if ($(window).width() > 820) {
+        $('.cover').css({'visibility':'visible'});
+    }else {
+        $('.cover').css({'visibility':'hidden'});
+    }
+
+})
+
 
 $(document).ready(function() {
+
+
 
     let mdlID = '';
     const render = () => {
