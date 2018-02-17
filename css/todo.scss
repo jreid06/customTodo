@@ -35,17 +35,15 @@ a{
     z-index: 1001;
     visibility: hidden;
     color: #f2f2f2;
-    @media only screen and (min-width: 812px){
-        visibility: visible;
-    }
-
-
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 
+    @media only screen and (min-width: 812px){
+        visibility: visible;
+    }
 
     .content-box{
         text-align: center;
