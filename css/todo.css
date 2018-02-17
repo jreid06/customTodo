@@ -5,6 +5,25 @@ a {
   width: 50% !important;
   margin: 20px auto; }
 
+.cover {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: #222;
+  z-index: 1001;
+  visibility: hidden;
+  color: #f2f2f2;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center; }
+  @media only screen and (min-width: 812px) {
+    .cover {
+      visibility: visible; } }
+  .cover .content-box {
+    text-align: center; }
+
 body {
   font-family: 'Boogaloo', cursive;
   min-width: 320px;
@@ -78,7 +97,7 @@ footer, .home-footer {
     flex-direction: row;
     padding: 0 50px; }
   .social-media li {
-    width: 25%;
+    width: 50%;
     display: inline;
     text-align: center;
     padding: 5px;

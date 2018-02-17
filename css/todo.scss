@@ -27,6 +27,31 @@ a{
     margin: 20px auto;
 }
 
+.cover{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: #222;
+    z-index: 1001;
+    visibility: hidden;
+    color: #f2f2f2;
+    @media only screen and (min-width: 812px){
+        visibility: visible;
+    }
+
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+
+    .content-box{
+        text-align: center;
+    }
+}
+
 body {
     font-family: 'Boogaloo', cursive;
     // font-family: 'Fredericka the Great', cursive;
@@ -120,7 +145,7 @@ footer {
     }
 
     li {
-        width: 25%;
+        width: 50%;
         display: inline;
         text-align: center;
         padding: 5px;
